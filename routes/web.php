@@ -75,8 +75,3 @@ Route::prefix('admin')->middleware(["role:admin","verified", "auth",])->group(fu
     Route::put('/subject/user/update/{subjectId}/{subjectUserId}', [SubjectUserController::class, 'update'])->name("subjectUser_update");
     Route::delete("/subject/user/destroy/{subjectId}/{subjectUserId}", [SubjectUserController::class, "destroy"])->name("subjectUser_destroy");
 });
-Route::get('/test_broadcast', function () {
-    $event = new MessageUserEvent(1, 1, 2, 'Test message');
-    broadcast($event);
-    return 'Event has been broadcasted!';
-});
