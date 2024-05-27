@@ -1,0 +1,71 @@
+<div id="infoUser_${id}" class="  fixed z-10 inset-0 overflow-y-auto "
+    aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="relative z-10" aria-labelledby="modleInfoUser_${id}" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div
+                    class="relative  transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-6/12	 ">
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 ">
+                        <div class="sm:flex sm:items-start w-full">
+                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-center w-full">
+                                <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Info User
+                                </h3>
+                                <div class="mt-2 ">
+                                    <div>
+                                        <div class="mt-6 border-t border-gray-100">
+                                            <dl class="divide-y divide-gray-100">
+                                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                    <dt class="text-sm font-medium leading-6 text-gray-900"></dt>
+                                                    <dd class="mt-1 text-sm leading-5 text-gray-700  sm:mt-0 ">
+                                                        <img class="rounded-full"
+                                                            src="${imagePath}"
+                                                            alt="">
+                                                    </dd>
+                                                </div>
+                                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                    <dt class="text-sm font-medium leading-6 text-gray-900">User Name</dt>
+                                                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                                                        id="userNameEdit_${id}"
+                                                    >
+                                                        ${name}
+                                                    </dd>
+                                                </div>
+                                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                    <dt class="text-sm font-medium leading-6 text-gray-900">Email address
+                                                    </dt>
+                                                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"
+                                                    id="userEmailEdit_${id}" >
+                                                        ${email}
+                                                    </dd>
+                                                </div>
+                                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                    <dt class="text-sm font-medium leading-6 text-gray-900"> Role
+                                                    </dt>
+                                                    <dd id="userRoles_${id}"
+                                                        class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                    </dd>
+                                                </div>
+                                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                                    <dt class="text-sm font-medium leading-6 text-gray-900"> Permission
+                                                    </dt>
+                                                    <dd id="userPermission_${id}"
+                                                        class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                                    </dd>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button type="button" onclick="closeModalInfoUser(${id})"
+                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

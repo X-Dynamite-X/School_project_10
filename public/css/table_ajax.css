@@ -1,0 +1,180 @@
+/* تخصيص لون خلفية العناوين في DataTables */
+.dataTables_wrapper .dataTables_info {
+    color: #fff;
+    /* لون النص */
+    font-size: 14px;
+    /* حجم الخط */
+}
+
+div.dt-container div.dt-layout-row {
+    display: table;
+    clear: both;
+    width: 100%;
+}
+div.dt-container div.dt-layout-cell.dt-start {
+    text-align: left;
+}
+div.dt-container div.dt-layout-cell.dt-end {
+    text-align: right;
+}
+div.dt-container div.dt-layout-cell {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 5px 0;
+}
+div.dt-container .dt-length,
+div.dt-container .dt-search,
+div.dt-container .dt-info,
+div.dt-container .dt-processing,
+div.dt-container .dt-paging {
+    color: inherit;
+}
+div.dt-container .dt-length,
+div.dt-container .dt-search,
+div.dt-container .dt-info,
+div.dt-container .dt-processing,
+div.dt-container .dt-paging {
+    color: inherit;
+}
+div.dt-container div.dt-layout-cell.dt-end {
+    text-align: right;
+}
+
+.dt-layout-row .dt-search input[type="search"].dt-input {
+    /* input#dt-search-0 { */
+    width: 200px;
+    /* عرض حقل البحث */
+    padding: 5px;
+    /* هوامش الحقل */
+    border-radius: 5px;
+    /* شكل الزوايا */
+    border: 1px solid #ccc;
+    /* حدود الحقل */
+    background-color: #f3f4f6;
+    color: #000;
+}
+div.dt-container div.dt-layout-cell.dt-start {
+    text-align: left;
+}
+div.dt-container .dt-paging .dt-paging-button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1.5em;
+    padding: 0.5em 1em;
+    margin-left: 2px;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    background: transparent;
+}
+.dt-layout-row .dt-length select.dt-input {
+    width: auto;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #f3f4f6;
+    color: #000;
+    border: 1px solid #ccc;
+}
+div.dt-container .dt-paging .dt-paging-button.current {
+    background: linear-gradient(to bottom, #fff 0%, #ddd 100%);
+    color: #000;
+}
+div.dt-container .dt-paging .dt-paging-button {
+    background-color: #f3f4f6;
+    color: #000;
+}
+
+.dataTables_wrapper .dataTables_scroll {
+    background-color: #f2f2f2;
+}
+table.dataTable thead > tr > th:active,
+table.dataTable thead > tr > td:active {
+    outline: none;
+}
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order:before,
+table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order:before {
+    position: absolute;
+    display: block;
+    bottom: 50%;
+    content: "▲";
+    content: "▲"/"";
+}
+table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order:after,
+table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order:after {
+    position: absolute;
+    display: block;
+    top: 50%;
+    content: "▼";
+    content: "▼"/"";
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc,
+table.dataTable thead > tr > th.dt-orderable-desc,
+table.dataTable thead > tr > th.dt-ordering-asc,
+table.dataTable thead > tr > th.dt-ordering-desc,
+table.dataTable thead > tr > td.dt-orderable-asc,
+table.dataTable thead > tr > td.dt-orderable-desc,
+table.dataTable thead > tr > td.dt-ordering-asc,
+table.dataTable thead > tr > td.dt-ordering-desc {
+    position: relative;
+    padding-right: 30px;
+}
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order,
+table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order,
+table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order,
+table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order,
+table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order,
+table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order,
+table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order,
+table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
+    position: absolute;
+    right: 12px;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+}
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order:before,
+table.dataTable thead > tr > th.dt-orderable-asc span.dt-column-order:after,
+table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order:before,
+table.dataTable thead > tr > th.dt-orderable-desc span.dt-column-order:after,
+table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:after,
+table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order:before,
+table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-orderable-asc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-orderable-desc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order:after {
+    left: 0;
+    opacity: 0.125;
+    line-height: 9px;
+    font-size: 0.8em;
+}
+table.dataTable thead > tr > th.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead > tr > th.dt-ordering-desc span.dt-column-order:after,
+table.dataTable thead > tr > td.dt-ordering-asc span.dt-column-order:before,
+table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order:after {
+    opacity: 0.6;
+}
+div#tableID_info {
+    color: #fff;
+}
+
+.text-right .action button svg
+{
+border: 0;
+}
+div#user_table_wrapper {
+    height: 90vh;
+    overflow-y: scroll;
+}
