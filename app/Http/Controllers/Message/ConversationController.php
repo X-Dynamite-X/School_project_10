@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Message;
 
 use App\Models\User;
+use App\Models\Message;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,30 +23,20 @@ class ConversationController extends Controller
         })->orWhere(function ($query) use ($user1_id) {
             $query->where('user2_id', $user1_id);
         })->get()->toArray();
-
         $conversationUsers[] = $user1_id; // إضافة معرف المستخدم الحالي إلى القائمة
-
         foreach ($conversationExists as $conversationExist) {
-            if ($conversationExist["user1_id"] ==auth()->user()->id) {
-                // print_r($conversationExist["user2_id"]);
-                // print_r("\n############\n");
+            if ($conversationExist["user1_id"] == auth()->user()->id) {
                 $conversationUsers[$conversationExist["user2_id"]] = $conversationExist["user2_id"]; // تصحيح الإضافة هنا
             } else {
-                // print_r($conversationExist["user1_id"]);
-                // print_r("\n############\n");
                 $conversationUsers[$conversationExist["user1_id"]] = $conversationExist["user1_id"]; // وهنا أيضًا
             }
         };
-
-        // print_r("\n############\n");
-        // print_r($conversationUsers);
-
         $data = User::whereNotIn('id', $conversationUsers)
-                    ->where(function ($query) use ($searchTerm) {
-                        $query->where('id', 'LIKE', "%" . $searchTerm . "%")
-                            ->orWhere('email', 'LIKE', "%" . $searchTerm . "%")
-                            ->orWhere('name', 'LIKE', "%" . $searchTerm . "%");
-                    })->get();
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('id', 'LIKE', "%" . $searchTerm . "%")
+                    ->orWhere('email', 'LIKE', "%" . $searchTerm . "%")
+                    ->orWhere('name', 'LIKE', "%" . $searchTerm . "%");
+            })->get();
 
         return response()->json($data);
     }
@@ -54,7 +45,6 @@ class ConversationController extends Controller
 
     public function index()
     {
-        //
         $conversations = Conversation::all();
         $users = User::all();
         return view("chat.chat_room", ['conversations' => $conversations, 'users' => $users]);
@@ -67,40 +57,45 @@ class ConversationController extends Controller
 
     public function create(Request $request, $user1_id, $user2_id)
     {
-        // Validate the incoming request data
-        $request->validate([
-            'user1_id' => 'required|exists:users,id',
-            'user2_id' => 'required|exists:users,id',
-        ]);
-
-        // Check if conversation already exists
-        $conversationExists = Conversation::where(function ($query) use ($user1_id, $user2_id) {
+        $conversation = Conversation::where(function ($query) use ($user1_id, $user2_id) {
             $query->where('user1_id', $user1_id)
                 ->where('user2_id', $user2_id);
         })->orWhere(function ($query) use ($user1_id, $user2_id) {
             $query->where('user1_id', $user2_id)
                 ->where('user2_id', $user1_id);
-        })->exists();
+        })->first();
 
-        // If conversation already exists, return error response
-        if ($conversationExists) {
-            // return response()->json(['message' => 'Conversation already exists'], 400);
-            $conversation=Conversation::where('user1_id', $user1_id)->where('user2_id', $user2_id);
-            $conversation_id=$conversation->id;
-            return redirect()->route('show_ConversationController',['conversation_id'=>$conversation_id]);
+        // إذا كانت المحادثة موجودة بالفعل، قم بإعادة المحادثة والرسائل الخاصة بها
+        if ($conversation) {
+            $messages = Message::where("conversation_id", $conversation->id)
+                ->orderBy('created_at', 'asc')
+                ->get();
+            return response()->json([
+                'conversation' => $conversation,
+                'messages' => $messages
+            ], 200);
         }
 
-        // Create the conversation
+        // إنشاء محادثة جديدة
         $conversation = new Conversation();
-        $conversation->user1_id = min($user1_id, $user2_id); // أختيار أصغر قيمة
-        $conversation->user2_id = max($user1_id, $user2_id); // أختيار أكبر قيمة
+        $conversation->user1_id = min($user1_id, $user2_id); // اختيار أصغر قيمة
+        $conversation->user2_id = max($user1_id, $user2_id); // اختيار أكبر قيمة
         $conversation->save();
 
-        // Return a response indicating success
-        // return response()->json(['message' => 'Conversation created successfully'], 201);
-        return redirect()->route('show_ConversationController',['conversation_id'=>$conversation->id]);
-
+        $messages = Message::where("conversation_id", $conversation->id)
+            ->orderBy('created_at', 'asc')
+            ->get();
+        $me = auth()->user()->id;
+        $receiver = $conversation->user1_id == $me ? $conversation->user2_id : $conversation->user1_id;
+        $user = User::find($receiver);
+        // dd($user);
+        return response()->json([
+            'conversation' => $conversation,
+            "user" => $user,
+            'messages' => $messages
+        ], 201);
     }
+
 
     /**
      * Show the form for creating a new resource.

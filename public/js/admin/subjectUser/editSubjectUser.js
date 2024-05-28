@@ -14,8 +14,7 @@ function showEditSubjectUserModal(subjectId,userId) {
                 .replace(/\${subject_name}/g, subject.name)
                 .replace(/\${mark}/g, mark)
                 .replace(/\${csrf_token}/g, csrf_token)
-                .replace(/\${userName}/g, user.name)
-                .replace(/\${routSubjectUserEdit}/g,routSubjectUserEdit);
+                .replace(/\${userName}/g, user.name);
                 $(`.editModleSubjectUser`).append(editModleSubjectUser);
             });
         },

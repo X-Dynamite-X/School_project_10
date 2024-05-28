@@ -40,5 +40,4 @@
         <script src="{{ asset('js/admin/subjectUser/editSubjectUser.js') }}"></script>
         <script src="{{ asset('js/admin/subjectUser/deleteSubjectUser.js') }}"></script>
 
-        @include('admin.model.subjects.routeSubject')
-    @endsection
+]    @endsection

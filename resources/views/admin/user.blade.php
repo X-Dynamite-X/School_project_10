@@ -33,8 +33,7 @@
     </div>
 @endsection
 @section('js')
-    
-    @include("admin.model.user.routeUser")
+
     <script src="{{ asset('js/DataTables/userDataTable.js') }}"></script>
     <script src="{{ asset('js/admin/user/createUser.js') }}"></script>
     <script src="{{ asset('js/admin/user/editUser.js') }}"></script>

@@ -12,7 +12,6 @@ function showCreateSubjectUserModal(subjectId) {
                 // استبدال القيم في القالب
                 var createSubjectUser = template
                     .replace(/\${subjectName}/g, subject.name)
-                    .replace(/\${routCreateSubjectUser}/g, routCreateSubjectUser)
                     .replace(/\${csrf_token}/g, csrf_token)
                     .replace(/\${subjectId}/g, subject.id);
                 // إضافة القالب إلى الـ DOM

@@ -23,7 +23,6 @@ function showEditModal(id) {
                     .replace(/\${checked}/g, checked)
                     .replace(/\${style}/g, style)
                     .replace(/\${imagePath}/g, "../../"+image)
-                    .replace(/\${routUserEdit}/g, routUserEdit)
                     .replace(/\${csrf_token}/g, csrf_token);
                 $(`.editModle`).append(infoSubject);
                 roles.forEach(function (role) {

@@ -10,7 +10,6 @@ function showDeleteModal(id) {
                     .replace(/\${subjectCode}/g, subject.subject_code)
                     .replace(/\${successMark}/g, subject.success_mark)
                     .replace(/\${fullMark}/g, subject.full_mark)
-                    .replace(/\${routSubjectDelete}/g, routSubjectDelete)
                     .replace(/\${csrf_token}/g, csrf_token)
                     .replace(/\${subjectId}/g, subject.id);
                 $(`.deleteModle`).append(deleteSubject);

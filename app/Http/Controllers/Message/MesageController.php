@@ -17,14 +17,7 @@ class MesageController extends Controller
      */
     public function index()
     {
-        //
-        // $users = User::all();
-        // $conversations = auth()->user()->conversations;
-
         $conversations = Conversation::where("user1_id", auth()->user()->id)->orWhere("user2_id", auth()->user()->id)->get();;
-        // $conversations = Conversation::find(1);
-        // dd($conversations);
-
         return view("user.message.index", ["conversations" => $conversations]);
     }
 
@@ -60,7 +53,7 @@ class MesageController extends Controller
         ]);
 
         Log::info('Message created', ['message' => $message]);
-
+        
         broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
 
         Log::info('Event broadcasted');
@@ -78,57 +71,9 @@ class MesageController extends Controller
         return view('user.message.action.reseve', ['message' => $message]);
     }
 
-    // public function store(Request $request, $conversation_id)
-    // {
-    //     $conversation = Conversation::findOrFail($conversation_id);
 
-    //     $request->validate([
-    //         'message_text' => 'required',
-    //     ]);
-
-    //     if ($conversation->user1_id == auth()->user()->id || $conversation->user2_id == auth()->user()->id) {
-    //         $sender = auth()->user()->id;
-    //         $receiver = $conversation->user1_id == auth()->user()->id ? $conversation->user2_id : $conversation->user1_id;
-
-    //         $message = Message::create([
-    //             'conversation_id' => $conversation_id,
-    //             'sender_user_id' => $sender,
-    //             'receiver_user_id' => $receiver,
-    //             'message_text' => $request->input('message_text'),
-    //         ]);
-
-    //         broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
-
-    //         return view('user.message.action.sender', ['message' => $message]);
-    //     } else {
-    //         return response()->json(['error' => 'Unauthorized'], 403);
-    //     }
-    // }
-
-
-    // public function receiveMessages(Request $request, $conversation_id)
-    // {
-    //     $conversation = Conversation::findOrFail($conversation_id);
-
-    //     if ($conversation->user1_id == auth()->user()->id || $conversation->user2_id == auth()->user()->id) {
-    //         $receive_user = $conversation->user1_id == auth()->user()->id ? $conversation->user2 : $conversation->user1;
-    //         $message = Message::where('conversation_id', $conversation_id)->latest()->first();
-
-    //         return view('user.message.action.receive', ['message' => $message, 'receive_user' => $receive_user]);
-    //     } else {
-    //         return response()->json(['error' => 'Unauthorized'], 403);
-    //     }
-    // }
-
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $conversation_id)
     {
-        //
-        // $conversation =Conversation::where("id",$conversation_id);
-
         $conversations = Conversation::all();
         $conversation = Conversation::find($conversation_id);
         $messages = Message::where("conversation_id", $conversation_id)
@@ -136,7 +81,7 @@ class MesageController extends Controller
             ->get();
         $users = User::all();
 
-        return view("user.message.index", ['conversations' => $conversations, 'users' => $users, 'conversation' => $conversation, "messages" => $messages]);
+        return view("user.message.chatSbace", ['conversations' => $conversations, 'users' => $users, 'conversation' => $conversation, "messages" => $messages]);
         // return view("chat.chat_room");
 
     }

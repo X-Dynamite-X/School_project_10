@@ -34,9 +34,9 @@ Route::prefix('')->middleware(["auth","verified", ChackIsActive::class])->group(
     // Rout Users
     Route::get('/home', [SubjectContreollerUser::class, 'index'])->name('home');
     Route::get('/user/profile', [UserControllerUser::class, 'index'])->name('profile_index');
-    Route::get('/message', [MesageController::class, 'index'])->name('message_index');
     //! message
-    // Route::post('/{user1_id}/{user2_id}', [ConversationController::class, 'create'])->name('create_ConversationController')->middleware('CheckUser1');
+    Route::get('/message', [MesageController::class, 'index'])->name('message_index');
+    Route::post('/ConversationController/{user1_id}/{user2_id}', [ConversationController::class, 'create'])->name('create_ConversationController');
     Route::get("/message/{conversation_id}", [MesageController::class, 'show'])->name('show_ConversationController');
     Route::post("/message/{conversation_id}/broadcast/messages", [MesageController::class, 'store'])->name('store_ConversationController');
     Route::post("/message/{conversation_id}/receive/messages", [MesageController::class, 'receiveMessages'])->name('receive_ConversationController');
@@ -68,8 +68,6 @@ Route::prefix('admin')->middleware(["role:admin","verified", "auth",])->group(fu
     Route::get('/getSubjectUser/{id}', [SubjectUserController::class, 'getSubjectUser'])->name('getSubjectUser_index');
     Route::get('/getSubjectUserData/{id}', [SubjectUserController::class, 'getSubjectUserData'])->name("getSubjectUserData_ajax");
     Route::get('/getSubjectUserData/{subjectId}/{userId}', [SubjectUserController::class, 'getSubjectUserDataInSubject'])->name("getSubjectUserDataInSubject_ajax");
-
-
 
     Route::post('/subject/user/store/{subjectId}', [SubjectUserController::class, 'store'])->name("subjectUser_store");
     Route::put('/subject/user/update/{subjectId}/{subjectUserId}', [SubjectUserController::class, 'update'])->name("subjectUser_update");

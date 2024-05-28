@@ -10,7 +10,6 @@ function showDeleteModal(id) {
                     .replace(/\${id}/g, user.id)
                     .replace(/\${name}/g, user.name)
                     .replace(/\${email}/g, user.email)
-                    .replace(/\${routUserDelete}/g, routUserDelete)
                     .replace(/\${csrf_token}/g, csrf_token);
                 $(`.deleteModle`).append(infoUser);
 

@@ -22,9 +22,10 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
     <script src="{{ asset('js/style.js/nav.js') }}"></script>
+
     <script>
-        var userIp = auth()->user()->id;
-        console.log(userIp);
+            var userId = '{{ auth()->user()->id }}';
+            var csrf_token ="{{ csrf_token() }}";
     </script>
     @yield('js')
 

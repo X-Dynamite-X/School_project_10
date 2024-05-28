@@ -11,8 +11,7 @@ function showDeleteSubjectUserModal(subjectId,userId) {
                 .replace(/\${userId}/g, user.id)
                 .replace(/\${subject_name}/g, subject.name)
                 .replace(/\${csrf_token}/g, csrf_token)
-                .replace(/\${userName}/g, user.name)
-                .replace(/\${routSubjectUserDelete}/g,routSubjectUserDelete);
+                .replace(/\${userName}/g, user.name);
                 $(`.deleteModleSubjectUser`).append(deleteModleSubjectUser);
             });
         },

@@ -10,7 +10,6 @@ function showEditModal(id) {
                     .replace(/\${subjectCode}/g, subject.subject_code)
                     .replace(/\${successMark}/g, subject.success_mark)
                     .replace(/\${fullMark}/g, subject.full_mark)
-                    .replace(/\${routSubjectEdit}/g, routSubjectEdit)
 
                     .replace(/\${csrf_token}/g, csrf_token)
                     .replace(/\${subjectId}/g, subject.id);
