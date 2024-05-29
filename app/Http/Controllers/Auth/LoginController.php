@@ -42,13 +42,10 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
 
     {
-        // dd(auth()->user()->hasRole('admin'));
-        // dd(auth()->user()->email_verified_at != null);
+
         if (auth()->check() && auth()->user()->email_verified_at != null && auth()->user()->hasDirectPermission('notActev')) {
-            auth()->logout(); // قم بتسجيل الخروج في حالة عدم تحقق الشرط
-            return redirect('/waiting'); // يمكنك توجيه المستخدم إلى أي صفحة تحددها هنا
-
-
+            auth()->logout();
+            return redirect('/waiting');
         }
         if (auth()->check() && auth()->user()->email_verified_at != null && auth()->user()->hasRole('admin')) {
             return redirect('/admin/user');

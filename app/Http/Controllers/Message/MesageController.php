@@ -17,21 +17,28 @@ class MesageController extends Controller
      */
     public function index()
     {
-        $conversations = Conversation::where("user1_id", auth()->user()->id)->orWhere("user2_id", auth()->user()->id)->get();;
+        $conversations = Conversation::where(function ($query) {
+            $query->where('user1_id', auth()->user()->id)
+                ->orWhere('user2_id', auth()->user()->id);
+        })
+        ->with(['user1', 'user2', 'messages' => function ($query) {
+            $query->latest()->first(); // فقط أحدث رسالة
+        }])
+        ->get()
+        ->sortByDesc(function ($conversation) {
+            return $conversation->messages->first()->created_at ?? $conversation->created_at;
+        });
+
         return view("user.message.index", ["conversations" => $conversations]);
     }
+
 
 
     public function store(Request $request, $conversation_id)
     {
         Log::info('Starting to store message');
 
-        $conversation = Conversation::find($conversation_id);
-
-        if (!$conversation) {
-            Log::error('Conversation not found', ['conversation_id' => $conversation_id]);
-            return response()->json(['error' => 'Conversation not found'], 404);
-        }
+        $conversation = Conversation::findOrFail($conversation_id);
 
         if ($conversation->user1_id != auth()->user()->id && $conversation->user2_id != auth()->user()->id) {
             Log::error('Unauthorized access', ['user_id' => auth()->user()->id]);
@@ -53,7 +60,7 @@ class MesageController extends Controller
         ]);
 
         Log::info('Message created', ['message' => $message]);
-        
+
         broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
 
         Log::info('Event broadcasted');
@@ -62,29 +69,35 @@ class MesageController extends Controller
     }
 
 
-    public function receiveMessages(Request $request,$conversation_id)
-    {
-        $conversation = Conversation::find($conversation_id);
-
-        $message = Message::where("conversation_id", $conversation_id)->get()->last();
-        // dd($message->text);
-        return view('user.message.action.reseve', ['message' => $message]);
-    }
+    public function receiveMessages(Request $request, $conversation_id)
+{
+    $message = Message::where("conversation_id", $conversation_id)->latest()->first();
+    return view('user.message.action.reseve', ['message' => $message]);
+}
 
 
-    public function show(string $conversation_id)
-    {
-        $conversations = Conversation::all();
-        $conversation = Conversation::find($conversation_id);
-        $messages = Message::where("conversation_id", $conversation_id)
-            ->orderBy('created_at', 'asc')
-            ->get();
-        $users = User::all();
+public function show(string $conversation_id)
+{
+    $conversation = Conversation::with(['messages' => function ($query) {
+        $query->orderBy('created_at', 'asc');
+    }, 'user1', 'user2'])->findOrFail($conversation_id);
 
-        return view("user.message.chatSbace", ['conversations' => $conversations, 'users' => $users, 'conversation' => $conversation, "messages" => $messages]);
-        // return view("chat.chat_room");
+    return view("user.message.chatSbace", [
+        'conversations' => Conversation::where('user1_id', auth()->user()->id)
+            ->orWhere('user2_id', auth()->user()->id)
+            ->with(['user1', 'user2', 'messages' => function ($query) {
+                $query->latest()->first();
+            }])
+            ->get()
+            ->sortByDesc(function ($conversation) {
+                return $conversation->messages->first()->created_at ?? $conversation->created_at;
+            }),
+        'users' => User::all(),
+        'conversation' => $conversation,
+        'messages' => $conversation->messages
+    ]);
+}
 
-    }
     public function create()
     {
         //
@@ -97,6 +110,11 @@ class MesageController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     *
+     *
+     * +
+     *
      */
 
     /**

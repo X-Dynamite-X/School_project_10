@@ -9,7 +9,7 @@
         <ul class="contacts_search ">
         </ul>
     <hr>
-    <ul class="myContacts">
+    <ul class="myContacts" id="myContacts">
         @foreach ($conversations as $conversation)
             @if ($conversation->user1_id == auth()->user()->id)
                 <li  class="showConversation flex justify-between gap-x-6 py-5" data-conversation_id="{{$conversation->id}}" >

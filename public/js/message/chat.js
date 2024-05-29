@@ -7,6 +7,41 @@ var pusher = new Pusher('0593f400f770b8b42f63', {
 });
 var isSending = false;
 
+// function sendMessage(conversationId) {
+//     if (isSending) {
+//         return;
+//     }
+//     var form = $("#chatForm");
+//     var formData = form.serialize();
+//     isSending = true;
+//     $.ajax({
+//         url: `/message/${conversationId}/broadcast/messages`,
+//         type: 'POST',
+//         data: formData,
+//         headers: {
+//             'X-Socket-ID': pusher.connection.socket_id
+//         },
+//         success: function (response) {
+//             $(".message_spase >").last().after(response);
+//             $("#message_text").val("");
+//             $(document).scrollTop($(document).height());
+//             console.log("done");
+
+//             // احصل على العنصر الأول في قائمة المحادثات
+//             var firstConversation = $(".myContacts li").first();
+//             if (firstConversation.data("conversation_id") !== conversationId) {
+//                 // إذا لم تكن المحادثة الحالية في الأعلى، قم بإعادة ترتيب المحادثات
+//                 fetchConversations(conversationId);
+//             }
+//         },
+//         error: function (response) {
+//             console.log("Error sending message:", response);
+//         },
+//         complete: function () {
+//             isSending = false;
+//         },
+//     });
+// }
 function sendMessage(conversationId) {
     if (isSending) {
         return;
@@ -14,6 +49,28 @@ function sendMessage(conversationId) {
     var form = $("#chatForm");
     var formData = form.serialize();
     isSending = true;
+
+    // أضف الرسالة إلى الواجهة مباشرة
+    var messageText = $("#message_text").val();
+    if (messageText.trim() === "") {
+        isSending = false;
+        return;
+    }
+var imgAvatarConversation = $("#imgAvatarConversation").data("img_avatar1");
+    var messageElement = `
+        <div class="mb-4 text-right">
+            <div class="bg-blue-500 text-white p-3 rounded-lg inline-block">
+                <p class="inline">${messageText}</p>
+                <img class="h-8 w-8 rounded-full inline" id="imgAvatar1" src="${imgAvatarConversation}" alt="">
+            </div>
+        </div>`;
+    $(".message_spase >").last().after(messageElement);
+    $("#message_text").val("");
+    $(document).scrollTop($(document).height());
+
+    // أرسل الرسالة إلى الخادم
+    $(document).scrollTop($(document).height());
+
     $.ajax({
         url: `/message/${conversationId}/broadcast/messages`,
         type: 'POST',
@@ -22,11 +79,12 @@ function sendMessage(conversationId) {
             'X-Socket-ID': pusher.connection.socket_id
         },
         success: function (response) {
-            console.log("Send");
             console.log("Message sent successfully:", response);
-            $(".message_spase >").last().after(response);
-            $("#message_text").val("");
-            $(document).scrollTop($(document).height());
+
+            var firstConversation = $(".myContacts li").first();
+            if (firstConversation.data("conversation_id") !== conversationId) {
+                fetchConversations();
+            }
         },
         error: function (response) {
             console.log("Error sending message:", response);
@@ -36,10 +94,14 @@ function sendMessage(conversationId) {
         },
     });
 }
+
+
+
+
+
 function handleKeyPress(event) {
     if (event.key === "Enter") {
     var conversationId = $(this).data("conversation_id_inbut");
-    console.log(conversationId);
         sendMessage(conversationId);
     }
 }
@@ -47,27 +109,25 @@ $(document).on("click", ".send_btn_input", function () {
     var conversationId = $(this).data("conversation_id_inbut");
 
     // conversation-id
-    console.log(conversationId);
     sendMessage(conversationId);
 });
 var currentChannel = null;
 var currentConversationId = null;
 var isSending = false;
+
 function subscribeToChannel(conversationId) {
     if (currentChannel) {
         currentChannel.unbind_all();
         pusher.unsubscribe(`conversation${currentConversationId}`);
     }
-    console.log(conversationId);
     currentConversationId = conversationId;
     currentChannel = pusher.subscribe(`conversation${conversationId}`);
 
     currentChannel.bind('pusher:subscription_succeeded', function() {
-        console.log(`Successfully subscribed to channel: conversation${conversationId}`);
+        console.log('Subscribed to conversation' + conversationId);
     });
 
     currentChannel.bind('conversation', function(data) {
-        console.log("Message received:", data);
         $.ajax({
             url: `/message/${conversationId}/receive/messages`,
             method: 'POST',
@@ -76,10 +136,13 @@ function subscribeToChannel(conversationId) {
                 encodedConversationId: data.encodedConversationId,
             },
             success: function(res) {
-                console.log(res);
                 $(".message_spase >").last().after(res);
-
                 $(document).scrollTop($(document).height());
+
+                // تحقق من هوية المرسل والمستقبل
+                if (data.sender_user_id !== userId && data.receiver_user_id !== userId) {
+                    fetchConversations();
+                }
             },
             error: function(error) {
                 console.log('Error receiving message:', error);
@@ -91,5 +154,3 @@ function subscribeToChannel(conversationId) {
         console.error(`Subscription error: ${status}`);
     });
 }
-
-

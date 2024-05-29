@@ -1,13 +1,11 @@
 $(document).ready(function() {
     $('.search').on('input', function() {
         var query = $(this).val().trim();
-        console.log(query);
         $.ajax({
             type: "GET",
             url: "/search",
             data: { search: query },
             success: function (data) {
-                // console.log(data);
                 $(".contacts_search").empty();
                 if(query.length == 0){
                     $(".myContacts").removeClass("hidden");
@@ -17,10 +15,9 @@ $(document).ready(function() {
                 }
                 for (let index = 0; index < data.length; index++) {
                     var user = data[index];
-                    // console.log(user);
                     if (user.id != userId && query.length !=0) {
                         var contact = `
-                        <li class="createConversation flex justify-between gap-x-6 py-5"data-user_1="${userId}" data-user_2="${user.id}">
+                        <li id="createConversation_${user.id}" class="createConversation flex justify-between gap-x-6 py-5"data-user_1="${userId}" data-user_2="${user.id}">
                         <div class="flex min-w-0 gap-x-4">
                             <img class="h-12 w-12 flex-none rounded-full bg-gray-50"
                                 src="../../imageProfile/${user.image}"

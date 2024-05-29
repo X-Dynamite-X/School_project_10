@@ -10,9 +10,7 @@ use App\Http\Controllers\Controller;
 
 class ConversationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function searchUser(Request $request)
     {
         $searchTerm = $request->input('search');
@@ -23,7 +21,7 @@ class ConversationController extends Controller
         })->orWhere(function ($query) use ($user1_id) {
             $query->where('user2_id', $user1_id);
         })->get()->toArray();
-        $conversationUsers[] = $user1_id; // إضافة معرف المستخدم الحالي إلى القائمة
+        $conversationUsers[] = $user1_id;
         foreach ($conversationExists as $conversationExist) {
             if ($conversationExist["user1_id"] == auth()->user()->id) {
                 $conversationUsers[$conversationExist["user2_id"]] = $conversationExist["user2_id"]; // تصحيح الإضافة هنا
@@ -41,18 +39,23 @@ class ConversationController extends Controller
         return response()->json($data);
     }
 
-
-
-    public function index()
+    public function getConversations()
     {
-        $conversations = Conversation::all();
-        $users = User::all();
-        return view("chat.chat_room", ['conversations' => $conversations, 'users' => $users]);
+        $conversations = Conversation::where(function ($query) {
+            $query->where('user1_id', auth()->user()->id)
+                ->orWhere('user2_id', auth()->user()->id);
+        })
+        ->with(['user1', 'user2', 'messages' => function ($query) {
+            $query->latest(); // ترتيب الرسائل داخل كل محادثة بناءً على الأحدث
+        }])
+        ->get()
+        ->sortByDesc(function ($conversation) {
+            return $conversation->messages->first()->created_at ?? $conversation->created_at;
+        })->values();
+
+        return response()->json(['conversations' => $conversations]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
 
 
     public function create(Request $request, $user1_id, $user2_id)
@@ -64,31 +67,17 @@ class ConversationController extends Controller
             $query->where('user1_id', $user2_id)
                 ->where('user2_id', $user1_id);
         })->first();
-
-        // إذا كانت المحادثة موجودة بالفعل، قم بإعادة المحادثة والرسائل الخاصة بها
-        if ($conversation) {
-            $messages = Message::where("conversation_id", $conversation->id)
-                ->orderBy('created_at', 'asc')
-                ->get();
-            return response()->json([
-                'conversation' => $conversation,
-                'messages' => $messages
-            ], 200);
-        }
-
-        // إنشاء محادثة جديدة
         $conversation = new Conversation();
-        $conversation->user1_id = min($user1_id, $user2_id); // اختيار أصغر قيمة
-        $conversation->user2_id = max($user1_id, $user2_id); // اختيار أكبر قيمة
+        $conversation->user1_id = min($user1_id, $user2_id); //  Choose the smallest value
+        $conversation->user2_id = max($user1_id, $user2_id); //  Choose the largest value
         $conversation->save();
 
         $messages = Message::where("conversation_id", $conversation->id)
             ->orderBy('created_at', 'asc')
             ->get();
-        $me = auth()->user()->id;
-        $receiver = $conversation->user1_id == $me ? $conversation->user2_id : $conversation->user1_id;
+        $authUser= auth()->user()->id;
+        $receiver = $conversation->user1_id == $authUser? $conversation->user2_id : $conversation->user1_id;
         $user = User::find($receiver);
-        // dd($user);
         return response()->json([
             'conversation' => $conversation,
             "user" => $user,
@@ -96,47 +85,25 @@ class ConversationController extends Controller
         ], 201);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //

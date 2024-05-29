@@ -54,7 +54,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'chakeuser' => \App\Http\Middleware\ChackIsActive::class,
+        'cheackConversation' => \App\Http\Middleware\CheackConversationInUser::class,
 
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,

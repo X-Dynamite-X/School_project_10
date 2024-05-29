@@ -2,12 +2,12 @@
 
  <div class="p-4 border-b bg-white chat">
         @if ($conversation->user1_id == auth()->user()->id)
-            <img class="h-8 w-8 rounded-full inline" id="imgAvatar1"
+            <img class="h-8 w-8 rounded-full inline" id="imgAvatarConversation" data-img_avatar1="{{ asset('imageProfile/' . $conversation->user2->image) }}"
                 src="{{ asset('imageProfile/' . $conversation->user2->image) }}" alt="">
             <h2 class="text-2xl font-semibold inline">{{ $conversation->user2->name }}</h2>
         @else
-            <img class="h-8 w-8 rounded-full inline" id="imgAvatar1"
-                src="{{ asset('imageProfile/' . $conversation->user1->image) }}" alt="">
+            <img class="h-8 w-8 rounded-full inline" id="imgAvatarConversation"
+                src="{{ asset('imageProfile/' . $conversation->user1->image) }}"data-img_avatar1="{{ asset('imageProfile/' . $conversation->user2->image) }}" alt="">
             <h2 class="text-2xl font-semibold inline">{{ $conversation->user1->name }}</h2>
         @endif
     </div>
