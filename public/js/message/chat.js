@@ -2,7 +2,8 @@
 // Pusher.logToConsole = true;
 var pusher = new Pusher('0593f400f770b8b42f63', {
     cluster: 'mt1',
-    forceTLS: true
+    forceTLS: true,
+    encrypted: true,
 
 });
 var isSending = false;

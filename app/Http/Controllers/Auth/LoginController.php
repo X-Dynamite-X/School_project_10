@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserOnline;
+use App\Events\UserOffline;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -39,6 +42,18 @@ class LoginController extends Controller
     {
         $this->middleware(['guest'])->except('logout');
     }
+    public function logout(Request $request)
+    {
+        event(new UserOffline(Auth::id()));
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
     protected function authenticated(Request $request, $user)
 
     {
@@ -48,9 +63,10 @@ class LoginController extends Controller
             return redirect('/waiting');
         }
         if (auth()->check() && auth()->user()->email_verified_at != null && auth()->user()->hasRole('admin')) {
+           event(new UserOnline(Auth::id()));
             return redirect('/admin/user');
         }
-
+         event(new UserOnline(Auth::id()));
         return redirect('/home');
     }
 }

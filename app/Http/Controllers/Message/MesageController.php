@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Message;
 
+use App\Events\MessageSentNotification;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\Conversation;
@@ -53,21 +54,41 @@ class MesageController extends Controller
         ]);
 
         $sender = auth()->user()->id;
-        $receiver = $conversation->user1_id == $sender ? $conversation->user2_id : $conversation->user1_id;
+        $receiverId = $conversation->user1_id == $sender ? $conversation->user2_id : $conversation->user1_id;
 
         $message = Message::create([
             "conversation_id" => $conversation_id,
             "sender_user_id" => $sender,
-            "receiver_user_id" => $receiver,
+            "receiver_user_id" => $receiverId,
             "message_text" => $request->input("message_text"),
         ]);
 
         Log::info('Message created', ['message' => $message]);
 
         broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
-        $receiver = User::find($receiver);
-        Notification::send( $receiver,new NotificationMessage( $receiver , $message->message_text));
+        // $receiver = User::find($receiver);
+        // Notification::send( $receiver,new NotificationMessage( $receiver , $message->message_text));
+        $presenceChannel = 'presence-conversation.' . $conversation_id;
+        $receiverIsOnline = false;
+        $pusher = new \Pusher\Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), [
+            'cluster' => env('PUSHER_APP_CLUSTER'),
+            'useTLS' => true
+        ]);
 
+        $presenceInfo = $pusher->get('/channels/' . $presenceChannel . '/users');
+        if ($presenceInfo['status'] === 200) {
+            foreach ($presenceInfo['users'] as $user) {
+                if ($user['id'] == $receiverId) {
+                    $receiverIsOnline = true;
+                    break;
+                }
+            }
+        }
+
+        if (!$receiverIsOnline) {
+            // إرسال إشعار باستخدام Pusher إذا كان المستلم غير متصل
+            broadcast(new MessageSentNotification($message))->toOthers();
+        }
         Log::info('Event broadcasted');
 
         return view("user.message.action.sender", ['message' => $message]);

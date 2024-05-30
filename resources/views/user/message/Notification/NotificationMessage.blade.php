@@ -19,20 +19,19 @@
 
             <!-- Main Content -->
             <div class="mb-6">
-                <p class="text-gray-700 mb-4">Hello [{{auth()->user()->name}}],</p>
-                <p class="text-gray-700 mb-4">You have received a new message from [{{$receiver->name}}] in our messaging app.</p>
-                <p class="text-green-700 mb-4">Message : (" {{$message_text}} ")</p>
-                <p class="text-gray-700">Best regards,<br> The Messaging App Team</p>
+                <p class="text-gray-700 mb-4">Hello [{{$receiver->name}}],</p>
+                <p class="text-gray-700 mb-4">You have received a new message from  [' {{auth()->user()->name}} '] in our messaging app.</p>
+                <div>
+                    <img class="h-8 w-8 rounded-full inline "  src="{{ asset('imageProfile/'.$receiver->image) }}" alt="">
+                    <p class="text-green-700 mb-4 inline">Message : (" {{$message_text}} ")</p>
+                </div>
+
             </div>
 
             <!-- Footer -->
             <div class="border-t pt-4 text-center text-gray-600">
                 <p>&copy; 2024 Messaging App. All rights reserved.</p>
                 <p class="text-sm">1234 Street, City, Country</p>
-                <p class="text-sm">
-                    <a href="#" class="text-blue-500 hover:underline">Unsubscribe</a> |
-                    <a href="#" class="text-blue-500 hover:underline">Privacy Policy</a>
-                </p>
             </div>
         </div>
 </body>

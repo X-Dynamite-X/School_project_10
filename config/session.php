@@ -20,6 +20,8 @@ return [
 
     'driver' => env('SESSION_DRIVER', 'file'),
 
+
+
     /*
     |--------------------------------------------------------------------------
     | Session Lifetime
@@ -31,7 +33,10 @@ return [
     |
     */
 
+
     'lifetime' => env('SESSION_LIFETIME', 120),
+    'files' => storage_path('framework/sessions'),
+
 
     'expire_on_close' => false,
 
@@ -72,7 +77,8 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION'),
+    // 'connection' => env('SESSION_CONNECTION'),
+    'connection' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +91,8 @@ return [
     |
     */
 
-    'table' => 'sessions',
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -100,8 +107,8 @@ return [
     |
     */
 
-    'store' => env('SESSION_STORE'),
-
+    // 'store' => env('SESSION_STORE'),
+    'store' => null,
     /*
     |--------------------------------------------------------------------------
     | Session Sweeping Lottery
@@ -142,6 +149,8 @@ return [
     |
     */
 
+
+    'table' => 'sessions',
     'path' => '/',
 
     /*
@@ -155,7 +164,8 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    // 'domain' => env('SESSION_DOMAIN'),
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------

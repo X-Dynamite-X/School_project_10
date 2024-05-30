@@ -10,7 +10,6 @@
     </div>
 @endsection
 @section('js')
-    <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
     <script src="{{ asset('js/message/search.js') }}"></script>
     <script src="{{ asset('js/message/createConversation.js') }}"></script>
     <script src="{{ asset('js/message/showConversation.js') }}"></script>
