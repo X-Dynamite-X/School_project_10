@@ -2,10 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Events\MessageUserEvent;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\ChackIsActive;
-use App\Http\Controllers\HomeController;
+
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Message\MesageController;
@@ -13,7 +11,6 @@ use App\Http\Controllers\Admin\SubjectUserController;
 use App\Http\Controllers\Message\ConversationController;
 use App\Http\Controllers\User\UserController as UserControllerUser;
 use App\Http\Controllers\User\SubjectController as SubjectContreollerUser;
-
 Route::get(
     '/',
     function () {
@@ -40,6 +37,7 @@ Route::prefix('')->middleware(["auth", "verified", "permission:isActev"])->group
 
     Route::get('/message', [MesageController::class, 'index'])->name('message_index');
     Route::post('/ConversationController/{user1_id}/{user2_id}', [ConversationController::class, 'create'])->name('create_ConversationController');
+
     Route::prefix('')->middleware(["cheackConversation"])->group(function () {
         Route::get("/message/{conversation_id}", [MesageController::class, 'show'])->name('show_ConversationController');
         Route::post("/message/{conversation_id}/broadcast/messages", [MesageController::class, 'store'])->name('store_ConversationController');

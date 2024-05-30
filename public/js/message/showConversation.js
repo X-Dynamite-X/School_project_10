@@ -1,22 +1,3 @@
-// $(document).on("click", ".showConversation", function() {
-//     var showConversationId = $(this).data("conversation_id");
-//     $.ajax({
-//         type: "GET",
-//         url: `/message`,
-//         data: {
-//             _token: csrf_token,
-//         },
-//         success: function(data) {
-
-//             subscribeToChannel(showConversationId);
-//         },
-//         error: function(xhr, status, error) {
-//             console.error(xhr.responseText);
-//         },
-//     });
-// });
-
-
 function fetchConversations() {
     $.ajax({
         type: "GET",
@@ -25,7 +6,6 @@ function fetchConversations() {
             _token: csrf_token,
         },
         success: function (data) {
-            console.log(data);
             updateConversations(data.conversations);
         },
         error: function (xhr, status, error) {
@@ -71,3 +51,6 @@ function updateConversations(conversations) {
         });
     });
 }
+// todo add last message
+// todo add statos user in online or ofline
+// todo edit change counversion we dont in that

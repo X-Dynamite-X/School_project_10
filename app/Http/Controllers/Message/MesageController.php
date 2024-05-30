@@ -7,8 +7,10 @@ use App\Models\Message;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use App\Events\MessageUserEvent;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Notifications\NotificationMessage;
+use Illuminate\Support\Facades\Notification;
 
 class MesageController extends Controller
 {
@@ -36,6 +38,7 @@ class MesageController extends Controller
 
     public function store(Request $request, $conversation_id)
     {
+
         Log::info('Starting to store message');
 
         $conversation = Conversation::findOrFail($conversation_id);
@@ -62,6 +65,8 @@ class MesageController extends Controller
         Log::info('Message created', ['message' => $message]);
 
         broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
+        $receiver = User::find($receiver);
+        Notification::send( $receiver,new NotificationMessage( $receiver , $message->message_text));
 
         Log::info('Event broadcasted');
 

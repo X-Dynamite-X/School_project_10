@@ -6,7 +6,6 @@ function showInfoModal(id) {
             var user = response[0];
             var roles = response[1];
             var permissions = response[2];
-            console.log(user.image)
             var image = `imageProfile/${user.image}`;
             $.get("/templates/user/infoUserModle.html", function (template) {
                 var infoSubject = template

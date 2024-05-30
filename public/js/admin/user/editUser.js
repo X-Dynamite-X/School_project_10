@@ -77,7 +77,6 @@ $(document).on('click', '.editUserButton', function() {
         processData: false, // Don't process data (required with FormData)
         contentType: false,
         success: function (data) {
-            console.log(data);
             var user = data[0];
             var permission = data[1];
 
@@ -100,7 +99,6 @@ $(document).on('click', '.editUserButton', function() {
         },
         error: function (data) {
             var errur = data.responseJSON.message;
-            console.log(data);
             console.log(data.statusText);
             console.log(errur);
             $("#errurMessageInputUserNameEdit_"+ id).text("");

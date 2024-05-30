@@ -9,7 +9,6 @@ $(document).on("click", ".showConversation", function() {
         success: function(data) {
             $(".chat").remove();
             $(".chatCode").append(data);
-            console.log(data);
             subscribeToChannel(showConversationId);
         },
         error: function(xhr, status, error) {

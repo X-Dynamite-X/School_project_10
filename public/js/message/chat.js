@@ -7,41 +7,6 @@ var pusher = new Pusher('0593f400f770b8b42f63', {
 });
 var isSending = false;
 
-// function sendMessage(conversationId) {
-//     if (isSending) {
-//         return;
-//     }
-//     var form = $("#chatForm");
-//     var formData = form.serialize();
-//     isSending = true;
-//     $.ajax({
-//         url: `/message/${conversationId}/broadcast/messages`,
-//         type: 'POST',
-//         data: formData,
-//         headers: {
-//             'X-Socket-ID': pusher.connection.socket_id
-//         },
-//         success: function (response) {
-//             $(".message_spase >").last().after(response);
-//             $("#message_text").val("");
-//             $(document).scrollTop($(document).height());
-//             console.log("done");
-
-//             // احصل على العنصر الأول في قائمة المحادثات
-//             var firstConversation = $(".myContacts li").first();
-//             if (firstConversation.data("conversation_id") !== conversationId) {
-//                 // إذا لم تكن المحادثة الحالية في الأعلى، قم بإعادة ترتيب المحادثات
-//                 fetchConversations(conversationId);
-//             }
-//         },
-//         error: function (response) {
-//             console.log("Error sending message:", response);
-//         },
-//         complete: function () {
-//             isSending = false;
-//         },
-//     });
-// }
 function sendMessage(conversationId) {
     if (isSending) {
         return;
@@ -79,7 +44,6 @@ var imgAvatarConversation = $("#imgAvatarConversation").data("img_avatar1");
             'X-Socket-ID': pusher.connection.socket_id
         },
         success: function (response) {
-            console.log("Message sent successfully:", response);
 
             var firstConversation = $(".myContacts li").first();
             if (firstConversation.data("conversation_id") !== conversationId) {
@@ -124,7 +88,6 @@ function subscribeToChannel(conversationId) {
     currentChannel = pusher.subscribe(`conversation${conversationId}`);
 
     currentChannel.bind('pusher:subscription_succeeded', function() {
-        console.log('Subscribed to conversation' + conversationId);
     });
 
     currentChannel.bind('conversation', function(data) {
