@@ -45,13 +45,13 @@ class ConversationController extends Controller
             $query->where('user1_id', auth()->user()->id)
                 ->orWhere('user2_id', auth()->user()->id);
         })
-        ->with(['user1', 'user2', 'messages' => function ($query) {
-            $query->latest(); // ترتيب الرسائل داخل كل محادثة بناءً على الأحدث
-        }])
-        ->get()
-        ->sortByDesc(function ($conversation) {
-            return $conversation->messages->first()->created_at ?? $conversation->created_at;
-        })->values();
+            ->with(['user1', 'user2', 'messages' => function ($query) {
+                $query->latest(); // ترتيب الرسائل داخل كل محادثة بناءً على الأحدث
+            }])
+            ->get()
+            ->sortByDesc(function ($conversation) {
+                return $conversation->messages->first()->created_at ?? $conversation->created_at;
+            })->values();
 
         return response()->json(['conversations' => $conversations]);
     }
@@ -75,8 +75,8 @@ class ConversationController extends Controller
         $messages = Message::where("conversation_id", $conversation->id)
             ->orderBy('created_at', 'asc')
             ->get();
-        $authUser= auth()->user()->id;
-        $receiver = $conversation->user1_id == $authUser? $conversation->user2_id : $conversation->user1_id;
+        $authUser = auth()->user()->id;
+        $receiver = $conversation->user1_id == $authUser ? $conversation->user2_id : $conversation->user1_id;
         $user = User::find($receiver);
         return response()->json([
             'conversation' => $conversation,

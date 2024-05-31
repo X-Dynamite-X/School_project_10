@@ -46,6 +46,7 @@ class LoginController extends Controller
     {
         event(new UserOffline(Auth::id()));
 
+        Auth::user()->updateLastSeen();
         Auth::logout();
 
         $request->session()->invalidate();
@@ -63,10 +64,16 @@ class LoginController extends Controller
             return redirect('/waiting');
         }
         if (auth()->check() && auth()->user()->email_verified_at != null && auth()->user()->hasRole('admin')) {
-           event(new UserOnline(Auth::id()));
+            session()->put('user_id', Auth::id());
+            Auth::user()->updateLastSeen();
+
+            event(new UserOnline(Auth::id()));
+
             return redirect('/admin/user');
         }
-         event(new UserOnline(Auth::id()));
+        session()->put('user_id', Auth::id());
+        event(new UserOnline(Auth::id()));
+
         return redirect('/home');
     }
 }

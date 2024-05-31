@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -23,6 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'image',
+        "last_seen_at",
     ];
 
     /**
@@ -47,6 +49,23 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+    public function sessions()
+    {
+        return $this->hasMany(Session::class, 'user_id');
+    }
+
+    public function getIsOnlineAttribute()
+    {
+        $threshold = Carbon::now()->subMinutes(5);
+        return $this->sessions()->where('last_activity', '>=', $threshold->timestamp)->exists();
+    }
+
+    public function updateLastSeen()
+    {
+        $this->last_seen_at = Carbon::now();
+        $this->save();
+    }
+
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'subject_users')->withPivot('mark');
@@ -71,4 +90,5 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Message::class, 'receiver_user_id');
     }
+
 }

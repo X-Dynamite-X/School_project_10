@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Message;
 
-use App\Events\MessageSentNotification;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\Session;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
 use App\Events\MessageUserEvent;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use App\Events\MessageSentNotification;
 use App\Notifications\NotificationMessage;
 use Illuminate\Support\Facades\Notification;
 
@@ -21,20 +24,27 @@ class MesageController extends Controller
     public function index()
     {
         $conversations = Conversation::where(function ($query) {
-            $query->where('user1_id', auth()->user()->id)
-                ->orWhere('user2_id', auth()->user()->id);
+            $query->where('user1_id', Auth::id())
+                ->orWhere('user2_id', Auth::id());
         })
-        ->with(['user1', 'user2', 'messages' => function ($query) {
-            $query->latest()->first(); // فقط أحدث رسالة
+        ->with(['user1.sessions', 'user2.sessions', 'messages' => function ($query) {
+            $query->latest()->first();
         }])
         ->get()
         ->sortByDesc(function ($conversation) {
-            return $conversation->messages->first()->created_at ?? $conversation->created_at;
+            return optional($conversation->messages->first())->created_at ?? $conversation->created_at;
         });
 
         return view("user.message.index", ["conversations" => $conversations]);
     }
 
+    // private function isUserOnline($userId)
+    // {
+    //     // تحقق من وجود جلسة نشطة لهذا المستخدم
+    //     return Session::where('user_id', $userId)
+    //         ->where('last_activity', '>=', now()->subMinutes(5)->timestamp)
+    //         ->exists();
+    // }
 
 
     public function store(Request $request, $conversation_id)
@@ -68,27 +78,7 @@ class MesageController extends Controller
         broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
         // $receiver = User::find($receiver);
         // Notification::send( $receiver,new NotificationMessage( $receiver , $message->message_text));
-        $presenceChannel = 'presence-conversation.' . $conversation_id;
-        $receiverIsOnline = false;
-        $pusher = new \Pusher\Pusher(env('PUSHER_APP_KEY'), env('PUSHER_APP_SECRET'), env('PUSHER_APP_ID'), [
-            'cluster' => env('PUSHER_APP_CLUSTER'),
-            'useTLS' => true
-        ]);
 
-        $presenceInfo = $pusher->get('/channels/' . $presenceChannel . '/users');
-        if ($presenceInfo['status'] === 200) {
-            foreach ($presenceInfo['users'] as $user) {
-                if ($user['id'] == $receiverId) {
-                    $receiverIsOnline = true;
-                    break;
-                }
-            }
-        }
-
-        if (!$receiverIsOnline) {
-            // إرسال إشعار باستخدام Pusher إذا كان المستلم غير متصل
-            broadcast(new MessageSentNotification($message))->toOthers();
-        }
         Log::info('Event broadcasted');
 
         return view("user.message.action.sender", ['message' => $message]);
