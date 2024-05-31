@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Message;
 use App\Models\Conversation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class ConversationController extends Controller
@@ -39,12 +40,33 @@ class ConversationController extends Controller
         return response()->json($data);
     }
 
+
+
+    // public function getConversations()
+    // {
+    //     $conversations = Conversation::where(function ($query) {
+    //         $query->where('user1_id', auth()->user()->id)
+    //             ->orWhere('user2_id', auth()->user()->id);
+    //     })
+    //         ->with(['user1.sessions', 'user2.sessions', 'messages' => function ($query) {
+    //             $query->latest(); // ترتيب الرسائل داخل كل محادثة بناءً على الأحدث
+    //         }])
+    //         ->get()
+    //         ->sortByDesc(function ($conversation) {
+    //             return $conversation->messages->first()->created_at ?? $conversation->created_at;
+    //         })->values();
+
+    //     return response()->json(['conversations' => $conversations]);
+    // }
+
     public function getConversations()
     {
-        $conversations = Conversation::where(function ($query) {
-            $query->where('user1_id', auth()->user()->id)
-                ->orWhere('user2_id', auth()->user()->id);
-        })
+        try {
+            // جلب المحادثات
+            $conversations = Conversation::where(function ($query) {
+                $query->where('user1_id', auth()->user()->id)
+                      ->orWhere('user2_id', auth()->user()->id);
+            })
             ->with(['user1', 'user2', 'messages' => function ($query) {
                 $query->latest(); // ترتيب الرسائل داخل كل محادثة بناءً على الأحدث
             }])
@@ -53,10 +75,28 @@ class ConversationController extends Controller
                 return $conversation->messages->first()->created_at ?? $conversation->created_at;
             })->values();
 
-        return response()->json(['conversations' => $conversations]);
+            // طباعة البيانات للتحقق
+            Log::info('Conversations: ', $conversations->toArray());
+
+            // التحقق من وجود الحقول المطلوبة
+            $conversations = $conversations->map(function ($conversation) {
+                $conversation->user1->is_online = $conversation->user1->is_online ?? false;
+                $conversation->user1->last_seen_at = $conversation->user1->last_seen_at ?? 'No data available';
+
+                $conversation->user2->is_online = $conversation->user2->is_online ?? false;
+                $conversation->user2->last_seen_at = $conversation->user2->last_seen_at ?? 'No data available';
+
+                return $conversation;
+            });
+
+            return response()->json(['conversations' => $conversations]);
+
+        } catch (\Exception $e) {
+            // تسجيل الخطأ وإرجاع رسالة خطأ
+            Log::error('Error fetching conversations: ' . $e->getMessage());
+            return response()->json(['error' => 'Unable to fetch conversations'], 500);
+        }
     }
-
-
 
     public function create(Request $request, $user1_id, $user2_id)
     {

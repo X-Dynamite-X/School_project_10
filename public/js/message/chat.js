@@ -25,7 +25,7 @@ function sendMessage(conversationId) {
 var imgAvatarConversation = $("#imgAvatarConversation").data("img_avatar1");
     var messageElement = `
         <div class="mb-4 text-right">
-            <div class="bg-blue-500 text-white p-3 rounded-lg inline-block">
+            <div class="bg-blue-500 text-white p-3  rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block">
                 <p class="inline">${messageText}</p>
                 <img class="h-8 w-8 rounded-full inline" id="imgAvatar1" src="${imgAvatarConversation}" alt="">
             </div>

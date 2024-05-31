@@ -2,7 +2,7 @@
 
  <div class="p-4 border-b bg-white chat">
         @if ($conversation->user1_id == auth()->user()->id)
-            <img class="h-8 w-8 rounded-full inline" id="imgAvatarConversation" data-img_avatar1="{{ asset('imageProfile/' . $conversation->user2->image) }}"
+            <img class="h-8 w-8 rounded-full inline" id="imgAvatarConversation" data-img_avatar1="{{ asset('imageProfile/' . $conversation->user1->image) }}"
                 src="{{ asset('imageProfile/' . $conversation->user2->image) }}" alt="">
             <h2 class="text-2xl font-semibold inline">{{ $conversation->user2->name }}</h2>
         @else
@@ -16,7 +16,7 @@
         @foreach ($messages as $message)
             @if ($message->sender->id == auth()->user()->id)
                 <div class="mb-4 text-right">
-                    <div class="bg-blue-500 text-white p-3 rounded-lg inline-block">
+                    <div class="bg-blue-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block">
                         <p class="inline">{{ $message->message_text }}</p>
                         <img class="h-8 w-8 rounded-full inline" id="imgAvatar1"
                             src="{{ asset('imageProfile/' . $message->sender->image) }}" alt="">
@@ -24,7 +24,7 @@
                 </div>
             @else
                 <div class="mb-4">
-                    <div class="bg-gray-200 p-3 rounded-lg inline-block">
+                    <div class="bg-gray-200 p-3  rounded-tr-lg rounded-bl-lg rounded-br-lg inline-block">
                         <img class="h-8 w-8 rounded-full inline" id="imgAvatar1"
                             src="{{ asset('imageProfile/' . $message->sender->image) }}" alt="">
                         <p class="inline">{{ $message->message_text }}</p>
