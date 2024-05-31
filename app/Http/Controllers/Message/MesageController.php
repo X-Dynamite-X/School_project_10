@@ -76,8 +76,8 @@ class MesageController extends Controller
         Log::info('Message created', ['message' => $message]);
 
         broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
-        // $receiver = User::find($receiver);
-        // Notification::send( $receiver,new NotificationMessage( $receiver , $message->message_text));
+        $receiver = User::find($receiverId);
+        Notification::send( $receiver,new NotificationMessage( $receiver , $message->message_text));
 
         Log::info('Event broadcasted');
 
