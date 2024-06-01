@@ -12,7 +12,8 @@ $(document).on("click", ".createConversation", function () {
             var conversation = data.conversation;
             var messages = data.messages;
             var user = data.user;
-
+            var authUser = data.authUser;
+            console.log(authUser);
             subscribeToChannel(conversation.id);
             $("#search").val("");
             $(".contacts_search").empty();
@@ -26,6 +27,8 @@ $(document).on("click", ".createConversation", function () {
                 .replace(/\${userId}/g, user.id)
                 .replace(/\${userName}/g, user.name)
                 .replace(/\${userImage}/g, user.image)
+                .replace(/\${authUserImage}/g, authUser.image)
+
                 .replace(/\${userId}/g, user.id)
                 .replace(/\${conversationId}/g, conversation.id)
                 .replace(/\${csrf_token}/g, csrf_token);

@@ -118,10 +118,13 @@ class ConversationController extends Controller
         $authUser = auth()->user()->id;
         $receiver = $conversation->user1_id == $authUser ? $conversation->user2_id : $conversation->user1_id;
         $user = User::find($receiver);
+        $authUser = User::find($authUser);
+
         return response()->json([
             'conversation' => $conversation,
             "user" => $user,
-            'messages' => $messages
+            'messages' => $messages,
+            "authUser"=>$authUser,
         ], 201);
     }
 
