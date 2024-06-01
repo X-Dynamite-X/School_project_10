@@ -65,70 +65,9 @@ function handleKeyPress(event) {
 }
 $(document).on("click", ".send_btn_input", function () {
     var conversationId = $(this).data("conversation_id_inbut");
-
     // conversation-id
+
     sendMessage(conversationId);
 });
-var currentChannel = null;
-var currentConversationId = null;
-var isSending = false;
 
-function subscribeToChannel(conversationId) {
-    if (currentChannel) {
-        currentChannel.unbind_all();
-        pusher.unsubscribe(`conversation${currentConversationId}`);
-    }
-    currentConversationId = conversationId;
-    currentChannel = pusher.subscribe(`conversation${conversationId}`);
-    currentChannel.bind("pusher:subscription_succeeded", function () {});
-    currentChannel.bind("conversation", function (data) {
-        $.ajax({
-            url: `/message/${conversationId}/receive/messages`,
-            method: "POST",
-            data: {
-                _token: csrf_token,
-                encodedConversationId: data.encodedConversationId,
-            },
-            success: function (res) {
-                console.log(res.message.id);
-                $.get("/templates/notification/NotificationMessage.html", function (template) {
-                    var notification = template
-                        .replace(/\${senderImage}/g,"../../imageProfile/"+ res.sender.image)
-                        .replace(/\${senderName}/g, res.sender.name)
-                        .replace(/\${messageId}/g, res.message.id)
-                    .replace(/\${conversationId}/g, data.conversation_id)
-                        .replace(/\${senderId}/g, res.sender.id)
 
-                        .replace(/\${messageText}/g, res.message.message_text);
-                    $(".notification").append(notification);
-                });
-                $.get("/templates/message/reseve.html", function (template) {
-                    var reseveMessage = template
-                        .replace(/\${senderImage}/g,"../../imageProfile/"+ res.sender.image)
-                        .replace(/\${messageText}/g, res.message.message_text);
-                    $(".message_spase >").last().after(reseveMessage);
-                });
-
-                $(document).scrollTop($(document).height());
-                // تحقق من هوية المرسل والمستقبل
-                if (
-                    data.sender_user_id !== userId &&
-                    data.receiver_user_id !== userId
-                ) {
-                    fetchConversations();
-                }
-            },
-            error: function (error) {
-                console.log("Error receiving message:", error);
-            },
-        });
-    });
-
-    currentChannel.bind("pusher:subscription_error", function (status) {
-        console.error(`Subscription error: ${status}`);
-    });
-}
-function closeNotification(id) {
-    console.log(id);
-    document.getElementById(`notification_${id}`).style.display = 'none';
-}

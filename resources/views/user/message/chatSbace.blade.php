@@ -1,4 +1,4 @@
-<div class="w-full flex my_h_93 flex-col chat " data-conversation-id="{{ $conversation->id }}">
+<div class="w-full flex my_h_93 flex-col chat "id="chatConversationSbace" data-conversation-id="{{ $conversation->id }}">
 
  <div class="p-4 border-b bg-white chat">
         @if ($conversation->user1_id == auth()->user()->id)

@@ -123,11 +123,10 @@
             <div>
                 <img class="h-8 w-8 rounded-full inline "
                     src="{{ $message->embed('imageProfile/' . $receiver->image) }}" alt="user image a message sender  ">
+                    
                 <p class="text-green-700 mb-4 inline">Message : (" {{ $message_text }} ")</p>
             </div>
-
         </div>
-
         <!-- Footer -->
         <div class="border-t pt-4 text-center text-gray-600">
             <p>&copy; 2024 Messaging App. All rights reserved.</p>

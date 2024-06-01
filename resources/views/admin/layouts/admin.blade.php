@@ -11,7 +11,7 @@
 </head>
 <body >
     <div class="admin" id="app">
-        <div class="notification" id="notification"></div>
+        <div class="notification" id="notification" style="display: none;"></div>
 
         <div class=" width-100">
             @include('admin.layouts.nav')
@@ -26,10 +26,13 @@
     <script src="{{ asset('js/style.js/nav.js') }}"></script>
     <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
     <script src="{{ asset('js/session/auth.js') }}"></script>
+    <script src="{{ asset('js/message/reseveMessage.js') }}"></script>
+
     <script>
-            var userId = '{{ auth()->user()->id }}';
-            var csrf_token ="{{ csrf_token() }}";
-    </script>
+        console.log(window.location.pathname);
+        var userId = '{{ auth()->user()->id }}';
+        var csrf_token ="{{ csrf_token() }}";
+        </script>
     @yield('js')
 
 </body>
