@@ -5,8 +5,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tailwind CSS Email Template</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    @vite('resources/css/app.css')
+    <style>
+        /* أنماط Tailwind مدمجة هنا */
+        .bg-gray-100 {
+            background-color: #f7fafc;
+        }
+
+        .max-w-2xl {
+            max-width: 42rem;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .p-6 {
+            padding: 1.5rem;
+        }
+
+        .bg-white {
+            background-color: #ffffff;
+        }
+
+        .rounded-lg {
+            border-radius: 0.5rem;
+        }
+
+        .shadow-md {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .border-b {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .pb-4 {
+            padding-bottom: 1rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .font-semibold {
+            font-weight: 600;
+        }
+
+        .text-gray-800 {
+            color: #2d3748;
+        }
+
+        .text-gray-600 {
+            color: #718096;
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .text-gray-700 {
+            color: #4a5568;
+        }
+
+        .h-8 {
+            height: 2rem;
+        }
+
+        .w-8 {
+            width: 2rem;
+        }
+
+        .rounded-full {
+            border-radius: 9999px;
+        }
+
+        .text-green-700 {
+            color: #2f855a;
+        }
+
+        .border-t {
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .pt-4 {
+            padding-top: 1rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+    </style>
 </head>
 
 
@@ -25,8 +122,7 @@
                 messaging app.</p>
             <div>
                 <img class="h-8 w-8 rounded-full inline "
-                    src="{{ $message->embed('imageProfile/' . $receiver->image) }}"
-                    alt="user image a message sender  ">
+                    src="{{ $message->embed('imageProfile/' . $receiver->image) }}" alt="user image a message sender  ">
                 <p class="text-green-700 mb-4 inline">Message : (" {{ $message_text }} ")</p>
             </div>
 
