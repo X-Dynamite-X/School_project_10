@@ -18,6 +18,12 @@ Route::get(
     }
 );
 Route::get(
+    '/test',
+    function () {
+        return view('test');
+    }
+);
+Route::get(
     '/waiting',
     function () {
         return view('auth.isNotActiv');

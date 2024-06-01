@@ -88,7 +88,11 @@ class MesageController extends Controller
     public function receiveMessages(Request $request, $conversation_id)
 {
     $message = Message::where("conversation_id", $conversation_id)->latest()->first();
-    return view('user.message.action.reseve', ['message' => $message]);
+    // return view('user.message.action.reseve', ['message' => $message]);
+
+
+    return response()->json(["message"=>$message , "sender"=>$message->sender],200);
+
 }
 
 

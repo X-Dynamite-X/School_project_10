@@ -24,7 +24,9 @@
 
 <body>
     <div id="app">
+
         @include('layouts.nav')
+        <div class="notification" id="notification"></div>
         @yield('content')
 
     </div>

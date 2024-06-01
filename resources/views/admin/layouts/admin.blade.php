@@ -11,6 +11,8 @@
 </head>
 <body >
     <div class="admin" id="app">
+        <div class="notification" id="notification"></div>
+
         <div class=" width-100">
             @include('admin.layouts.nav')
         </div>
