@@ -1,44 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notification Design</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .notification-container {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 50;
-        }
-    </style>
-</head>
-
-<body class="bg-gray-100">
-    <div class="notification-container" id="notification">
-        <div class="max-w-md w-full bg-white shadow-lg rounded-lg flex p-4 relative">
-            <img class="h-12 w-12 rounded-full" src="http://192.168.1.204:8000/imageProfile/1717199159.jpg"
-                alt="User Image">
-            <div class="ml-4 flex-1">
-                <h2 class="text-lg font-semibold">Emilia Gates</h2>
-                <p class="text-gray-600">Sure! 8:30pm works great!</p>
-            </div>
-            <a href="#" class="text-blue-500 hover:underline ml-4 mt-7">Reply</a>
-            <button onclick="closeNotification()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-    </div>
-    <script>
-        function closeNotification() {
-            document.getElementById('notification').style.display = 'none';
-        }
-    </script>
-</body>
-
-</html>
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#fff">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_iconCarrier">
+        <path d="M4 14L9 19L20 8M6 8.88889L9.07692 12L16 5" stroke="#fff"
+            stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path>
+    </g>
+</svg> 
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_iconCarrier">
+        <path d="M4 12.6111L8.92308 17.5L20 6.5" stroke="#fff" stroke-width="1"
+            stroke-linecap="round" stroke-linejoin="round"></path>
+    </g>
+</svg>
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_iconCarrier">
+        <path
+            d="M12 17V12L14.5 10.5M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+            stroke="#fff" stroke-width="1" stroke-linecap="round"
+            stroke-linejoin="round"></path>
+    </g>
+</svg>

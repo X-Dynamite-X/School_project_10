@@ -18,36 +18,19 @@ $(document).on("click", ".createConversation", function () {
             $("#search").val("");
             $(".contacts_search").empty();
             $(".myContacts").removeClass("hidden");
-
             $(".chat").remove();
             $(`createConversation_${user.id}`).remove();
-
             $.get("/templates/message/chatSbace.html", function(template) {
                 var chatMessageConversation = template
                 .replace(/\${userId}/g, user.id)
                 .replace(/\${userName}/g, user.name)
                 .replace(/\${userImage}/g, user.image)
                 .replace(/\${authUserImage}/g, authUser.image)
-
                 .replace(/\${userId}/g, user.id)
                 .replace(/\${conversationId}/g, conversation.id)
                 .replace(/\${csrf_token}/g, csrf_token);
                 $(".chatCode").append(chatMessageConversation);
             });
-            // $.get("/templates/message/countact.html", function(template) {
-            //     var contact = template
-            //     .replace(/\${userId}/g, user.id)
-            //     .replace(/\${userName}/g, user.name)
-            //     .replace(/\${userImage}/g, user.image)
-            //     .replace(/\${userEmail}/g, user.email)
-            //     .replace(/\${conversationId}/g, conversation.id)
-            //     $(".myContacts").append(contact);
-            // });
-
-
-
-
-
         },
         error: function (xhr, status, error) {
             console.error(xhr.responseText);

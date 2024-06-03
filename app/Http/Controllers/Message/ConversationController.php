@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Message;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\Conversation;
@@ -126,3 +127,14 @@ class ConversationController extends Controller
         //
     }
 }
+// function formatMessageDate($created_at) {
+//     $date = Carbon::parse($created_at);
+
+//     if ($date->isToday()) {
+//         return $date->format('H:i'); // "اليوم" مع الساعة
+//     } elseif ($date->isYesterday()) {
+//         return 'أمس ' . $date->format('H:i'); // "أمس" مع الساعة
+//     } else {
+//         return $date->format('d/m/y H:i'); // التاريخ مع الساعة
+//     }
+// }

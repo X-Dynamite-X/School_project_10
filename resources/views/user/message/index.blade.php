@@ -3,7 +3,7 @@
     <div class="message" id="app">
         <main class="flex ">
             @include('user.message.sidebar')
-            <div class="chatCode w-3/4" >
+            <div class="chatCode w-4/5" >
                 @include('user.message.startPage')
             </div>
         </main>
@@ -14,5 +14,5 @@
     <script src="{{ asset('js/message/createConversation.js') }}"></script>
     <script src="{{ asset('js/message/showConversation.js') }}"></script>
     <script src="{{ asset('js/message/showChatConversation.js') }}"></script>
-    <script src="{{ asset('js/message/chat.js') }}"></script>
+    <script src="{{ asset('js/message/sendeMessage.js') }}"></script>
 @endsection

@@ -41,11 +41,12 @@ function subscribeToChannel(conversationId) {
                     console.log(res.message.conversation_id);
 
                     if (res.message.conversation_id == conversationIdNowChat) {
-
+                        console.log(res.date);
                     $.get("/templates/message/reseve.html",
                         function (template) {
                             var reseveMessage = template
                                 .replace(/\${senderImage}/g,"../../imageProfile/" + res.sender.image)
+                                .replace(/\${messageDate}/g, res.date)
                                 .replace(/\${messageText}/g,res.message.message_text);
                             $(".message_spase >").last().after(reseveMessage);
                         }
@@ -63,6 +64,8 @@ function subscribeToChannel(conversationId) {
                                 `notification`
                             ).style.display = "block";
                         }
+
+
                         $.get("/templates/notification/NotificationMessage.html",
                             function (template) {
                                 var notification = template
@@ -70,6 +73,7 @@ function subscribeToChannel(conversationId) {
                                     .replace(/\${senderName}/g, res.sender.name)
                                     .replace(/\${messageId}/g, res.message.id)
                                     .replace(/\${conversationId}/g,data.conversation_id)
+                                    .replace(/\${messageDate}/g,date)
                                     .replace(/\${senderId}/g, res.sender.id)
                                     .replace(/\${messageText}/g,res.message.message_text);
                                 $(".notification").append(notification);
