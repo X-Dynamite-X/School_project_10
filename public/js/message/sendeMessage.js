@@ -9,7 +9,7 @@ $(document).on("click", ".send_btn_input", function () {
     const minutes = now.getMinutes().toString().padStart(2, '0');
     const date = `Today :${hours}:${minutes}`;
         var messageElement = `<div class="flex justify-end mb-4 items-end">
-        <div class="bg-green-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block relative min-w-20  max-w-sm w-1/5">
+        <div class="bg-green-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block relative min-w-40  max-w-sm w-1/5">
             <p class="break-words text-left items-end">${messageText}</p>
             <div class="absolute bottom-0 right-0 flex items-end space-x-1">
                 <span class="text-gray-200 text-xs">
@@ -26,9 +26,6 @@ $(document).on("click", ".send_btn_input", function () {
         </div>
         <img class="h-8 w-8 rounded-full ml-2" id="imgAvatar1" src="${imgAvatarConversation}" alt="">
     </div>`;
-
-
-        
     $(".message_spase >").last().after(messageElement);
     $("#message_text").val("");
     $(document).scrollTop($(document).height());
@@ -45,14 +42,12 @@ $(document).on("click", ".send_btn_input", function () {
             var firstConversation = $(".myContacts li").first();
             if (firstConversation.data("conversation_id") !== conversationId) {
                 fetchConversations();
+
             }
         },
         error: function (response) {
             console.log("Error sending message:", response);
         },
-        // complete: function () {
-        //     // isSending = false;
-        // },
     });
 });
 
@@ -64,12 +59,3 @@ $(document).on("click", ".send_btn_input", function () {
 
 
 
-
-function updateTime() {
-    const now = new Date();
-    const hours = now.getHours().toString().padStart(2, '0');
-    const minutes = now.getMinutes().toString().padStart(2, '0');
-    console.log(hours);
-    console.log(minutes);
-}
-updateTime();

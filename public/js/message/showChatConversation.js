@@ -1,4 +1,6 @@
-$(document).on("click", ".showConversation", function() {
+
+
+$(document).on("click", ".showConversation", function () {
     var showConversationId = $(this).data("conversation_id");
     $.ajax({
         type: "GET",
@@ -6,13 +8,22 @@ $(document).on("click", ".showConversation", function() {
         data: {
             _token: csrf_token,
         },
-        success: function(data) {
+        success: function (data) {
             $(".chat").remove();
             $(".chatCode").append(data);
             subscribeToChannel(showConversationId);
+            setTimeout(chatContainerScrollHeight, 100);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error(xhr.responseText);
         },
     });
 });
+
+
+function chatContainerScrollHeight() {
+    var chatContainer = document.querySelector(".message_spase");
+    if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+}

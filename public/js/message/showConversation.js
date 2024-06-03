@@ -24,7 +24,6 @@ function updateConversations(conversations) {
 
     conversations.forEach(function (conversation) {
         var id = conversation.id;
-
         var user_id, user_name, user_email, user_image, is_online, last_seen_at;
         if (conversation.user1_id == userId) {
             user_id = conversation.user2.id;
@@ -49,8 +48,6 @@ function updateConversations(conversations) {
                 .replace(/\${userImage}/g, user_image)
                 .replace(/\${userEmail}/g, user_email)
                 .replace(/\${conversationId}/g, id);
-
-            // معالجة التعبيرات الشرطية
             var isOnlineContent = is_online ? `
             <span class="text-green-500 inline">
                 Online
@@ -79,6 +76,6 @@ function updateConversations(conversations) {
     });
 }
 
-// todo add last message
+
 // todo add statos user in online or ofline
 // todo edit change counversion we dont in that

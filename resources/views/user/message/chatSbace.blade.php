@@ -19,7 +19,7 @@
         @foreach ($messages as $message)
             @if ($message->sender->id == auth()->user()->id)
             <div class="flex justify-end mb-4 items-end">
-                <div class="bg-green-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block relative min-w-20  max-w-sm w-1/5">
+                <div class="bg-green-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block relative min-w-40  max-w-sm w-1/5">
                     <p class="break-words text-left items-end">{{ $message->message_text }}</p>
                     <div class="absolute bottom-0 right-0 flex items-end space-x-1">
                         <span class="text-gray-200 text-xs">
@@ -36,13 +36,13 @@
                 </div>
                 <img class="h-8 w-8 rounded-full ml-2" id="imgAvatar1" src="{{ asset('imageProfile/' . $message->sender->image) }}" alt="">
             </div>
-            
+
             @else
                 <div class="flex justify-start mb-4 items-start ">
-                    <img class="h-8 w-8 rounded-full ml-2" id="imgAvatar1"
+                    <img class="h-8 w-8 rounded-full mr-2" id="imgAvatar1"
                         src="{{ asset('imageProfile/' . $message->sender->image) }}" alt="">
                     <div
-                        class="bg-gray-500 text-white p-3 rounded-tr-lg rounded-bl-lg rounded-br-lg inline-block relative min-w-20  max-w-sm w-1/5">
+                        class="bg-gray-500 text-white p-3 rounded-tr-lg rounded-bl-lg rounded-br-lg inline-block relative min-w-40  max-w-sm w-1/5">
                         <p class="inline break-words">{{ $message->message_text }}</p>
                         <div class="absolute bottom-0 right-0  pr-5  flex items-end space-x-1">
                             <span class="text-gray-200 text-xs">
