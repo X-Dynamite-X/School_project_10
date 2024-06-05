@@ -45,14 +45,9 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         event(new UserOffline(Auth::id()));
-
-        Auth::user()->updateLastSeen();
         Auth::logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect('/');
     }
     protected function authenticated(Request $request, $user)
@@ -65,14 +60,9 @@ class LoginController extends Controller
         }
         if (auth()->check() && auth()->user()->email_verified_at != null && auth()->user()->hasRole('admin')) {
             session()->put('user_id', Auth::id());
-            Auth::user()->updateLastSeen();
-
-            event(new UserOnline(Auth::id()));
-
             return redirect('/admin/user');
         }
         session()->put('user_id', Auth::id());
-        event(new UserOnline(Auth::id()));
 
         return redirect('/home');
     }

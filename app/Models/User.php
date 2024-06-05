@@ -54,18 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Session::class, 'user_id');
     }
 
-    public function getIsOnlineAttribute()
-    {
-        $threshold = Carbon::now()->subMinutes(5);
-        return $this->sessions()->where('last_activity', '>=', $threshold->timestamp)->exists();
-    }
-
-    public function updateLastSeen()
-    {
-        $this->last_seen_at = Carbon::now();
-        $this->save();
-    }
-
+   
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'subject_users')->withPivot('mark');
