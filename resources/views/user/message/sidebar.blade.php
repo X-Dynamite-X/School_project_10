@@ -29,7 +29,7 @@
                         <p class="text-xs status" >
                             @if (Helpers::isUserOnline($conversation->user2->id) == "Online" )
                                 <span class="text-green-500 inline" id="user-status-{{$conversation->user2->id}}">
-                                    {{-- {{ Helpers::isUserOnline($conversation->user2->id) }} --}}
+                                    {{ Helpers::isUserOnline($conversation->user2->id) }}
 
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                                         class="size-4 inline">
@@ -40,7 +40,7 @@
                                 </span>
                             @else
                                 <span class="text-red-500 inline-block flex justify-end">
-                                    {{-- {{ Helpers::isUserOnline($conversation->user2->id) }} --}}
+                                    {{ Helpers::isUserOnline($conversation->user2->id) }}
 
                                 </span>
                                 <span class="block">

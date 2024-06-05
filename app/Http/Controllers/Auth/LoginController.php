@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use App\Events\UserOnline;
 use App\Events\UserOffline;
 use Illuminate\Http\Request;
@@ -44,6 +45,11 @@ class LoginController extends Controller
     }
     public function logout(Request $request)
     {
+        $auth = User::find(Auth::user()->id);
+
+        $auth ->status = false;
+        $auth ->save();
+
         event(new UserOffline(Auth::id()));
         Auth::logout();
         $request->session()->invalidate();
@@ -51,14 +57,16 @@ class LoginController extends Controller
         return redirect('/');
     }
     protected function authenticated(Request $request, $user)
-
     {
 
-        if (auth()->check() && auth()->user()->email_verified_at != null && auth()->user()->hasDirectPermission('notActev')) {
+        if (auth()->check() && $user->email_verified_at != null && $user->hasDirectPermission('notActev')) {
             auth()->logout();
             return redirect('/waiting');
         }
-        if (auth()->check() && auth()->user()->email_verified_at != null && auth()->user()->hasRole('admin')) {
+        $user->status = true;
+        $user->save();
+
+        if (auth()->check() && $user->email_verified_at != null && $user->hasRole('admin')) {
             session()->put('user_id', Auth::id());
             return redirect('/admin/user');
         }
