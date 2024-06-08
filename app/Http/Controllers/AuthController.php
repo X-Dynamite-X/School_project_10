@@ -2,32 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Events\UserOnline;
 use App\Events\UserOffline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+
 class AuthController extends Controller
 {
-    public function login(Request $request)
+
+    // public function getUserStatus(Request $request )
+    // {
+    //     $userId = $request->input('user_id');
+    //     $status = $request->input('status');
+    //     event(new UserOnline($userId, $status));
+    //     return response()->json(['status' => 'success']);
+
+    // }
+    public function getUserStatus(Request $request)
     {
-        // عملية تسجيل الدخول
-        // ...
+        $userId = $request->input('user_id');
+        $status = (int) $request->input('status');
 
-        // بث الحدث عند تسجيل الدخول
-        Cache::put('user-is-online-' . Auth::id(), true, now()->addMinutes(5));
+        $user = User::find($userId);
+        if ($user) {
+            $user->status = $status;
+            if ($status == 0) {
+                $user->last_seen_at = Carbon::now()->toDateTimeString();
+            } else {
+                $user->last_seen_at = null;
+            }
+            $user->save();
+            event(new UserOnline($userId, $status));
 
-        event(new UserOnline(Auth::id()));
+            return response()->json(['status' => 'success', 'user' => $user]);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'User not found'], 404);
     }
 
-    public function logout()
+
+    public function editUserStatus(Request $request )
     {
-        // بث الحدث عند تسجيل الخروج
-        Cache::forget('user-is-online-' . Auth::id());
-
-        event(new UserOffline(Auth::id()));
-
-        // عملية تسجيل الخروج
-        // ...
+        $userId = $request->input('user_id');
+        $status = false;
+        $user = User::find($userId)->first();
+        $user->status = $status;
+        $user->save();
+        event(new UserOnline($userId, $status));
+        return response()->json(['status' => 'success']);
     }
+    public function usersStatusCheck()
+    {
+        $users = User::all();
+        return view("test",["users"=>$users]);
+    }
+
 }

@@ -28,7 +28,7 @@ class Helpers
             return "Online";
         }
         else{
-            // event(new UserOffline($user_id));
+            event(new UserOnline($user_id,$user->status));
             $user->status = false;
             $user->save();
             return "Offline";

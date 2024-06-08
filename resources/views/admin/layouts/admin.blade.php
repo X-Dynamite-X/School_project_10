@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     @yield('css')
 </head>
-<body >
+
+<body>
     <div class="admin" id="app">
         <div class="notification" id="notification" style="display: none;"></div>
 
@@ -21,6 +22,10 @@
             @yield('content_admin')
         </main>
     </div>
+    <script>
+        var userId = '{{ auth()->user()->id }}';
+        var csrf_token = "{{ csrf_token() }}";
+    </script>
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
     <script src="{{ asset('js/style.js/nav.js') }}"></script>
@@ -28,11 +33,7 @@
     <script src="{{ asset('js/session/auth.js') }}"></script>
     <script src="{{ asset('js/message/reseveMessage.js') }}"></script>
 
-    <script>
-        console.log(window.location.pathname);
-        var userId = '{{ auth()->user()->id }}';
-        var csrf_token ="{{ csrf_token() }}";
-        </script>
+
     @yield('js')
 
 </body>

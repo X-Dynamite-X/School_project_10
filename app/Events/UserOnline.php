@@ -16,14 +16,22 @@ class UserOnline implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $userId;
+    public $status;
 
-    public function __construct($userId)
+
+    public function __construct($userId,$status)
     {
         $this->userId = $userId;
+        $this->status = $status;
+
     }
 
     public function broadcastOn()
     {
-        return new Channel('users');
+        return new Channel('user-status-channel');
+    }
+    public function broadcastAs()
+    {
+        return new Channel('user-status-changed');
     }
 }

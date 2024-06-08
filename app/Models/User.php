@@ -25,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'image',
         "last_seen_at",
+        "status",
     ];
 
     /**
@@ -54,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Session::class, 'user_id');
     }
 
-   
+
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'subject_users')->withPivot('mark');

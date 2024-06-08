@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Message\MesageController;
@@ -17,19 +18,21 @@ Route::get(
         return view('welcome');
     }
 );
-Route::get(
-    '/test',
-    function () {
-        return view('test');
-    }
-);
+// Route::get(
+//     '/test',
+//     function () {
+//         return view('test');
+//     }
+// );
 Route::get(
     '/waiting',
     function () {
         return view('auth.isNotActiv');
     }
 );
+Route::get('/test', [AuthController::class, 'usersStatusCheck'])->name('getUsers');
 
+Route::post('/getUserStatus', [AuthController::class, 'getUserStatus'])->name('getUser');
 
 Auth::routes(['verify' => true]);
 

@@ -46,11 +46,11 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $auth = User::find(Auth::user()->id);
-
         $auth ->status = false;
-        $auth ->save();
+        $auth ->last_seen_at = now();
 
-        event(new UserOffline(Auth::id()));
+        $auth ->save();
+        event(new UserOnline(Auth::id(),$auth->status));
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -65,6 +65,7 @@ class LoginController extends Controller
         }
         $user->status = true;
         $user->save();
+        event(new UserOnline(Auth::id(),$user->status));
 
         if (auth()->check() && $user->email_verified_at != null && $user->hasRole('admin')) {
             session()->put('user_id', Auth::id());
