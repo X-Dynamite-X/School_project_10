@@ -36,7 +36,7 @@ class Helpers
     }
     public static function formatLastSeen($lastSeenAt) {
         if ($lastSeenAt === null) {
-            return "i'm not login yeat";
+            return "I'm not login yeat";
         }
 
         $lastSeenDate = Carbon::parse($lastSeenAt);

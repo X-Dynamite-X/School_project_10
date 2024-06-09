@@ -1,4 +1,3 @@
-// إعداد Pusher
 // Pusher.logToConsole = true;
 var pusher = new Pusher("0593f400f770b8b42f63", {
     cluster: "mt1",
@@ -7,27 +6,29 @@ var pusher = new Pusher("0593f400f770b8b42f63", {
 });
 var channel = pusher.subscribe("user-status-channel");
 var lastSeenAt = null;
-
 channel.bind("user-status-changed", function (data) {
     if (lastSeenAt !== null) {
         const lastSeenDate = new Date(lastSeenAt);
         const now = new Date();
         const diffInMinutes = Math.floor((now - lastSeenDate) / 60000);
     }
-    updateUserStatus(data.userId, data.status, data.status ? null : new Date().toISOString());
+    updateUserStatus(
+        data.userId,
+        data.status,
+        data.status ? null : new Date().toISOString()
+    );
 });
-
 function updateUserStatus(userId, status, lastSeenAt) {
     const userElement = document.getElementById(`user-status-${userId}`);
     if (userElement) {
-        const statusClass = status ? "text-green-500 " : "text-red-500 inline-block flex justify-end";
+        const statusClass = status
+            ? "text-green-500 "
+            : "text-red-500 inline-block flex justify-end";
         const statusText = status ? "Online" : "Offline";
-        let lastSeenText = "No data available";
-
+        let lastSeenText = "I'm not login yeat";
         if (!status && lastSeenAt !== null) {
-            lastSeenText = `Last seen ${lastSeenAt}`;
+            lastSeenText = `Last seen Just now`;
         }
-
         userElement.innerHTML = `
             <span class="${statusClass} inline">
                 ${statusText}
@@ -35,12 +36,15 @@ function updateUserStatus(userId, status, lastSeenAt) {
                     <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" />
                 </svg>
             </span>
-            ${!status ? `<span class="block" id="data-last-seen-${userId}">${lastSeenText}</span>` : ""}
+            ${
+                !status
+                    ? `<span class="block" id="data-last-seen-${userId}">${lastSeenText}</span>`
+                    : ""
+            }
         `;
         userElement.setAttribute("data-last-seen", status ? null : lastSeenAt);
     }
 }
-
 function updateLastSeenTime() {
     const userElements = document.querySelectorAll('[id^="user-status-"]');
     userElements.forEach((userElement) => {
@@ -49,10 +53,12 @@ function updateLastSeenTime() {
             const lastSeenDate = new Date(lastSeenAt);
             if (!isNaN(lastSeenDate.getTime())) {
                 const now = new Date();
-                const diffInMinutes = Math.floor((now - lastSeenDate.getTime()) / 60000);
+                const diffInMinutes = Math.floor(
+                    (now - lastSeenDate.getTime()) / 60000
+                );
                 let lastSeenText;
                 if (diffInMinutes < 1) {
-                    lastSeenText = "Just now";
+                    lastSeenText = "Last  seen Just now";
                 } else if (diffInMinutes < 60) {
                     lastSeenText = `Last seen ${diffInMinutes} m ago`;
                 } else if (diffInMinutes < 1440) {
@@ -62,7 +68,9 @@ function updateLastSeenTime() {
                     const diffInDays = Math.floor(diffInMinutes / 1440);
                     lastSeenText = `Last seen ${diffInDays} d ago`;
                 }
-                const dataLastSeenElement = userElement.querySelector(`#data-last-seen-${userElement.id.split('-')[2]}`);
+                const dataLastSeenElement = userElement.querySelector(
+                    `#data-last-seen-${userElement.id.split("-")[2]}`
+                );
                 if (dataLastSeenElement) {
                     dataLastSeenElement.textContent = `${lastSeenText}`;
                 }
@@ -70,52 +78,71 @@ function updateLastSeenTime() {
         }
     });
 }
-
 setInterval(updateLastSeenTime, 5000);
-
-function setUserStatus(userId, status) {
-    $.ajax({
-        url: "/getUserStatus",
-        method: "POST",
-        data: {
-            user_id: userId,
-            status: status ? 1 : 0,
-            _token: $('meta[name="csrf-token"]').attr("content"),
-        },
-        success: function (response) {
-            lastSeenAt = response.user.last_seen_at;
-            updateUserStatus(userId, status, status ? null : new Date().toISOString());
-        },
-        error: function (xhr, status, error) {
-            console.error(xhr.responseText);
-        },
-    });
-}
-
-let inactivityTime = function () {
-    let time;
+document.addEventListener("DOMContentLoaded", function () {
     let currentUserStatus = true;
+    function fetchUserStatus() {
+        $.ajax({
+            url: "/getUserStatus",
+            method: "GET",
+            data: {
+                user_id: userId,
+            },
+            success: function (response) {
+                if (response.status === "success") {
+                    currentUserStatus = response.user.status === 1; // true إذا كان online، false إذا كان offline
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Failed to fetch user status:", xhr.responseText);
+            },
+        });
+    }
     function setInactive() {
         if (currentUserStatus) {
             setUserStatus(userId, false);
             currentUserStatus = false;
         }
     }
-
     function resetTimer() {
         clearTimeout(time);
         if (!currentUserStatus) {
             setUserStatus(userId, true);
             currentUserStatus = true;
         }
-        time = setTimeout(setInactive, 20000); // تعيين الوقت إلى 20 ثانية
+        time = setTimeout(setInactive, 20000);
     }
-
+    function setUserStatus(userId, status) {
+        $.ajax({
+            url: "/setUserStatus",
+            method: "POST",
+            data: {
+                user_id: userId,
+                status: status ? 1 : 0,
+                _token: $('meta[name="csrf-token"]').attr("content"),
+            },
+            success: function (response) {
+                console.log("User status updated");
+                if (status) {
+                    lastSeenAt = null;
+                } else {
+                    lastSeenAt = new Date();
+                }
+                updateUserStatus(userId, status, lastSeenAt);
+            },
+            error: function (xhr, status, error) {
+                console.error(
+                    "Failed to update user status:",
+                    xhr.responseText
+                );
+            },
+        });
+    }
+    fetchUserStatus();
+    let time;
     window.onload = resetTimer;
     document.onmousemove = resetTimer;
     document.onkeypress = resetTimer;
     document.onscroll = resetTimer;
     document.onclick = resetTimer;
-};
-
-inactivityTime();
+});

@@ -32,7 +32,8 @@ Route::get(
 );
 Route::get('/test', [AuthController::class, 'usersStatusCheck'])->name('getUsers');
 
-Route::post('/getUserStatus', [AuthController::class, 'getUserStatus'])->name('getUser');
+Route::get('/getUserStatus', [AuthController::class, 'getUserStatus'])->name('getUserStatus');
+Route::post('/setUserStatus', [AuthController::class, 'setUserStatus'])->name('setUserStatus');
 
 Auth::routes(['verify' => true]);
 
