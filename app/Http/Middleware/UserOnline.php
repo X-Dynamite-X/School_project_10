@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Events\UserOnline as EventsUserOnline;
 use Closure;
 use Carbon\Carbon;
 use App\Models\User;
@@ -20,10 +21,14 @@ class UserOnline
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
+
             $auth = User::find(Auth::user()->id);
-            $expiresAt = now()->addMinutes(1);
-            Cache::put('user-is-online-' . $auth->id, true, $expiresAt);
-            $auth->last_seen_at = Carbon::now()->subMinutes(-1)->toDateTimeString();
+            if($auth->status == 0){
+                event($auth->id,1);
+            }
+            // $expiresAt = now()->addMinutes(1);
+            // Cache::put('user-is-online-' . $auth->id, true, $expiresAt);
+            // $auth->last_seen_at = Carbon::now()->subMinutes(-1)->toDateTimeString();
             $auth->status = true;
             $auth->save();
 
