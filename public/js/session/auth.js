@@ -13,14 +13,12 @@ channel.bind("user-status-changed", function (data) {
         const lastSeenDate = new Date(lastSeenAt);
         const now = new Date();
         const diffInMinutes = Math.floor((now - lastSeenDate) / 60000);
-        console.log(diffInMinutes);
     }
     updateUserStatus(data.userId, data.status, data.status ? null : new Date().toISOString());
 });
 
 function updateUserStatus(userId, status, lastSeenAt) {
     const userElement = document.getElementById(`user-status-${userId}`);
-    console.log(lastSeenAt);
     if (userElement) {
         const statusClass = status ? "text-green-500 " : "text-red-500 inline-block flex justify-end";
         const statusText = status ? "Online" : "Offline";
@@ -85,9 +83,7 @@ function setUserStatus(userId, status) {
             _token: $('meta[name="csrf-token"]').attr("content"),
         },
         success: function (response) {
-            console.log("User status updated");
             lastSeenAt = response.user.last_seen_at;
-            console.log(lastSeenAt);
             updateUserStatus(userId, status, status ? null : new Date().toISOString());
         },
         error: function (xhr, status, error) {
