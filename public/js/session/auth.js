@@ -56,17 +56,17 @@ function updateLastSeenTime() {
                 if (diffInMinutes < 1) {
                     lastSeenText = "Just now";
                 } else if (diffInMinutes < 60) {
-                    lastSeenText = `${diffInMinutes} m ago`;
+                    lastSeenText = `Last seen ${diffInMinutes} m ago`;
                 } else if (diffInMinutes < 1440) {
                     const diffInHours = Math.floor(diffInMinutes / 60);
-                    lastSeenText = `${diffInHours} h ago`;
+                    lastSeenText = `Last seen ${diffInHours} h ago`;
                 } else {
                     const diffInDays = Math.floor(diffInMinutes / 1440);
-                    lastSeenText = `${diffInDays} d ago`;
+                    lastSeenText = `Last seen ${diffInDays} d ago`;
                 }
                 const dataLastSeenElement = userElement.querySelector(`#data-last-seen-${userElement.id.split('-')[2]}`);
                 if (dataLastSeenElement) {
-                    dataLastSeenElement.textContent = `Last seen ${lastSeenText}`;
+                    dataLastSeenElement.textContent = `${lastSeenText}`;
                 }
             }
         }

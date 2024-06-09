@@ -34,6 +34,26 @@ class Helpers
             return "Offline";
         }
     }
+    public static function formatLastSeen($lastSeenAt) {
+        if ($lastSeenAt === null) {
+            return "i'm not login yeat";
+        }
 
+        $lastSeenDate = Carbon::parse($lastSeenAt);
+        $now = Carbon::now();
+        $diffInMinutes = $now->diffInMinutes($lastSeenDate);
+
+        if ($diffInMinutes < 1) {
+            return "Last seen Just now";
+        } else if ($diffInMinutes < 60) {
+            return "Last seen {$diffInMinutes} m ago";
+        } else if ($diffInMinutes < 1440) {
+            $diffInHours = floor($diffInMinutes / 60);
+            return "Last seen {$diffInHours} h ago";
+        } else {
+            $diffInDays = floor($diffInMinutes / 1440);
+            return "Last seen {$diffInDays} d ago";
+        }
+    }
 
 }
