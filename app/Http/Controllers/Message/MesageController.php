@@ -78,7 +78,6 @@ class MesageController extends Controller
     {
         $message = Message::where("conversation_id", $conversation_id)->latest()->first();
         $date =Helpers::formatMessageDate($message->created_at);
-
         return response()->json(["message" => $message, "sender" => $message->sender, "date" => $date], 200);
     }
 
@@ -120,5 +119,5 @@ class MesageController extends Controller
     public function destroy(string $id)
     {
     }
-   
+
 }

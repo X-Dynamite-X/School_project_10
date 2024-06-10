@@ -1,9 +1,5 @@
 // Pusher.logToConsole = true;
-var pusher = new Pusher("0593f400f770b8b42f63", {
-    cluster: "mt1",
-    forceTLS: true,
-    encrypted: true,
-});
+
 var channel = pusher.subscribe("user-status-channel");
 var lastSeenAt = null;
 channel.bind("user-status-changed", function (data) {
@@ -90,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             success: function (response) {
                 if (response.status === "success") {
-                    currentUserStatus = response.user.status === 1; // true إذا كان online، false إذا كان offline
+                    currentUserStatus = response.user.status === 1;
                 }
             },
             error: function (xhr, status, error) {
@@ -108,6 +104,8 @@ document.addEventListener("DOMContentLoaded", function () {
         clearTimeout(time);
         if (!currentUserStatus) {
             setUserStatus(userId, true);
+            console.log("done");
+
             currentUserStatus = true;
         }
         time = setTimeout(setInactive, 20000);
@@ -138,6 +136,24 @@ document.addEventListener("DOMContentLoaded", function () {
             },
         });
     }
+    window.addEventListener("unload", function () {
+        if (currentUserStatus) {
+            setInactive();
+            localStorage.setItem("userStatus", "offline");
+            localStorage.setItem("openBrowser", "true");
+        }
+    });
+
+    window.addEventListener("load", function () {
+        if (localStorage.getItem("openBrowser") == "true") {
+            if (localStorage.getItem("userStatus") === "offline") {
+                currentUserStatus = true;
+                console.log(currentUserStatus);
+                setUserStatus(userId, true);
+            }
+            localStorage.setItem("openBrowser", "false");
+        }
+    });
     fetchUserStatus();
     let time;
     window.onload = resetTimer;
@@ -146,3 +162,4 @@ document.addEventListener("DOMContentLoaded", function () {
     document.onscroll = resetTimer;
     document.onclick = resetTimer;
 });
+console.log(localStorage.getItem("openBrowser"));

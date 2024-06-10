@@ -38,10 +38,12 @@
         <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
         <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
-        <script src="{{ asset('js/message/reseveMessage.js') }}"></script>
         <script src="{{ asset('js/session/auth.js') }}"></script>
+        <script src="{{ asset('js/session/pusher.js') }}"></script>
+
+        <script src="{{ asset('js/message/reseveMessage.js') }}"></script>
+        @endauth
         <script src="{{ asset('js/style.js/nav.js') }}"></script>
-    @endauth
 
 
     @yield('js')

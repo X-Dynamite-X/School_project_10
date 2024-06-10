@@ -30,6 +30,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
     <script src="{{ asset('js/style.js/nav.js') }}"></script>
     <script src="https://js.pusher.com/8.0.1/pusher.min.js"></script>
+    <script src="{{ asset('js/session/pusher.js') }}"></script>
     <script src="{{ asset('js/session/auth.js') }}"></script>
     <script src="{{ asset('js/message/reseveMessage.js') }}"></script>
 

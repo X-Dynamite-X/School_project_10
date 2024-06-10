@@ -1,8 +1,3 @@
-var pusher = new Pusher("0593f400f770b8b42f63", {
-    cluster: "mt1",
-    forceTLS: true,
-    encrypted: true,
-});
 var channels = {};
 function subscribeToAllConversations() {
     $.ajax({
@@ -19,12 +14,10 @@ function subscribeToAllConversations() {
     });
 }
 var count = 0;
-
 function subscribeToChannel(conversationId) {
     var fetchConversationsTest = false;
     var ferstconv = 0;
     var lastconv = 0;
-
     if (!channels[conversationId]) {
         let channel = pusher.subscribe(`conversation${conversationId}`);
         channels[conversationId] = channel;
@@ -71,18 +64,17 @@ function subscribeToChannel(conversationId) {
                                     .replace(/\${conversationId}/g,data.conversation_id)
                                     .replace(/\${messageDate}/g, res.date)
                                     .replace(/\${senderId}/g, res.sender.id)
+                                    .replace(/\${receiverId}/g, res.message.receiver_user_id)
                                     .replace(/\${messageText}/g,res.message.message_text);
                                 $(".notification").append(notification);
                             }
                         );
-                        //fetchConversations
                         ferstconv = res.message.conversation_id;
                         if (window.location.pathname == "/message" ) {
                             if (ferstconv !== lastconv) {
                                 lastconv = res.message.conversation_id ;
                                 fetchConversations();
                             }
-
                         }
                     }
                 },
@@ -91,7 +83,6 @@ function subscribeToChannel(conversationId) {
                 },
             });
         });
-
         channel.bind("pusher:subscription_error", function (status) {
             console.error(`Subscription error: ${status}`);
         });
@@ -105,3 +96,6 @@ function closeNotification(id) {
         document.getElementById(`notification`).style.display = "none";
     }
 }
+
+console.log(window.onload);
+

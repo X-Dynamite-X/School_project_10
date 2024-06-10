@@ -14,7 +14,7 @@
                 $userId = $conversation->user1_id == $userAuth ? $conversation->user2_id : $conversation->user1_id;
                 $user = $conversation->user1_id == $userAuth ? $conversation->user2 : $conversation->user1;
             @endphp
-            <li id="user_{{ $userId }}" class="showConversation flex justify-between gap-x-6 py-5"
+            <li id="user_{{ $userId }}" data-status_{{$userId}}="{{ $user->status}}" class="showConversation flex justify-between gap-x-6 py-5"
                 data-conversation_id="{{ $conversation->id }}">
                 <div class="flex min-w-0 gap-x-4">
                     <img class="h-12 w-12 flex-none rounded-full bg-gray-50"

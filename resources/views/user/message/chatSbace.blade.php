@@ -17,8 +17,9 @@
     <div class="flex-1 overflow-y-auto p-4 message_spase chat">
         <div></div>
         @foreach ($messages as $message)
+    
             @if ($message->sender->id == auth()->user()->id)
-            <div class="flex justify-end mb-4 items-end">
+            <div class="flex justify-end mb-4 items-end" id="con_{{$message->conversation_id}}_sender_{{$message->sender->id}}_receiver_{{$message->receiver->id}}_message_{{$message->id}}">
                 <div class="bg-green-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block relative min-w-40  max-w-sm w-1/5">
                     <p class="break-words text-left items-end">{{ $message->message_text }}</p>
                     <div class="absolute bottom-0 right-0 flex items-end space-x-1">
@@ -36,9 +37,8 @@
                 </div>
                 <img class="h-8 w-8 rounded-full ml-2" id="imgAvatar1" src="{{ asset('imageProfile/' . $message->sender->image) }}" alt="">
             </div>
-
             @else
-                <div class="flex justify-start mb-4 items-start ">
+                <div class="flex justify-start mb-4 items-start "id="con_{{$message->conversation_id}}_sender_{{$message->sender->id}}_receiver_{{$message->receiver->id}}_message_{{$message->id}}">
                     <img class="h-8 w-8 rounded-full mr-2" id="imgAvatar1"
                         src="{{ asset('imageProfile/' . $message->sender->image) }}" alt="">
                     <div
