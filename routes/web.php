@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\SubjectUserController;
 use App\Http\Controllers\Message\ConversationController;
 use App\Http\Controllers\User\UserController as UserControllerUser;
 use App\Http\Controllers\User\SubjectController as SubjectContreollerUser;
+
 Route::get(
     '/',
     function () {
@@ -32,12 +33,13 @@ Route::get(
 );
 Route::get('/test', [AuthController::class, 'usersStatusCheck'])->name('getUsers');
 
-Route::get('/getUserStatus', [AuthController::class, 'getUserStatus'])->name('getUserStatus');
-Route::post('/setUserStatus', [AuthController::class, 'setUserStatus'])->name('setUserStatus');
 
 Auth::routes(['verify' => true]);
 
 Route::prefix('')->middleware(["auth", "verified", "permission:isActev"])->group(function () {
+
+    Route::get('/getUserStatus', [AuthController::class, 'getUserStatus'])->name('getUserStatus');
+    Route::post('/setUserStatus', [AuthController::class, 'setUserStatus'])->name('setUserStatus');
     // Rout Users
     Route::get('/home', [SubjectContreollerUser::class, 'index'])->name('home');
     Route::get('/user/profile', [UserControllerUser::class, 'index'])->name('profile_index');
