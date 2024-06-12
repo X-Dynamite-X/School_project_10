@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable ,HasRoles;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +26,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'image',
         "last_seen_at",
         "status",
+        'verification_token',
+
     ];
 
     /**
@@ -80,5 +82,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Message::class, 'receiver_user_id');
     }
-
 }

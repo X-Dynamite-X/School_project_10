@@ -21,25 +21,25 @@ class RoleSeeder extends Seeder
         // تعيين أذونات لكل دور إذا لزم الأمر
 
         // تعيين الأدوار للمستخدمين
-        $adminUser = User::where('email', 'dynamite@gmail.com')->first();
-        if ($adminUser) {
-            $adminUser->assignRole($adminRole);
-        }
+        // $adminUser = User::where('email', 'dynamite@gmail.com')->first();
+        // if ($adminUser) {
+        //     $adminUser->assignRole($adminRole);
+        // }
 
-        $userUser = User::where('email', 'madara@gmail.com')->first();
-        if ($userUser) {
-            $userUser->assignRole($userRole);
-        }
-        $userUser = User::where('email', 'mozan@gmail.com')->first();
-        if ($userUser) {
-            $userUser->assignRole($userRole);
-        }
-        for ($i = 3; $i <= 100; $i++) {
-            $userName = 'mozan' . $i;
-            $user = User::where('name', $userName)->first();
-            if ($user) {
-                $user->assignRole($userRole);
-            }
-        }
+        // $userUser = User::where('email', 'madara@gmail.com')->first();
+        // if ($userUser) {
+        //     $userUser->assignRole($userRole);
+        // }
+        // $userUser = User::where('email', 'mozan@gmail.com')->first();
+        // if ($userUser) {
+        //     $userUser->assignRole($userRole);
+        // }
+        // for ($i = 3; $i <= 100; $i++) {
+        //     $userName = 'mozan' . $i;
+        //     $user = User::where('name', $userName)->first();
+        //     if ($user) {
+        //         $user->assignRole($userRole);
+        //     }
+        // }
     }
 }

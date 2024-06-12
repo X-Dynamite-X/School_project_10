@@ -41,7 +41,7 @@ class NotificationMessage extends Notification implements ShouldQueue
         return (new MailMessage)
         ->from(auth()->user()->email)
 
-        ->markdown('user.message.Notification.NotificationMessage',["receiver"=>$this->receiver ,"message_text"=>$this->message_text ]);
+        ->markdown('emails.NotificationMessage',["receiver"=>$this->receiver ,"message_text"=>$this->message_text ]);
     }
 
     /**

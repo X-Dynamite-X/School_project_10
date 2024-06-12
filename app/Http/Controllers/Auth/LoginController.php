@@ -59,11 +59,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
 
-        if (auth()->check() && $user->email_verified_at === null) {
-            auth()->logout();
-            return redirect('/email/verify');
-        }
-        if (auth()->check() &&  $user->hasDirectPermission('notActev')) {
+        if (auth()->check() && $user->email_verified_at != null && $user->hasDirectPermission('notActev')) {
             auth()->logout();
             return redirect('/waiting');
         }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('image')->default("default.jpg");
             $table->boolean('status')->default(false);
             $table->timestamp('last_seen_at')->nullable();
+            $table->string('verification_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

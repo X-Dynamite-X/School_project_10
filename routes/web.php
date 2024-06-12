@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Message\MesageController;
 use App\Http\Controllers\Admin\SubjectUserController;
 use App\Http\Controllers\Message\ConversationController;
@@ -30,11 +31,20 @@ Route::get(
     function () {
         return view('auth.isNotActiv');
     }
-);
-Route::get('/test', [AuthController::class, 'usersStatusCheck'])->name('getUsers');
+)->middleware("guest");
+Route::get('/check-email', function () {
+    return view('auth.check-email');
+})->name('check.email');
+Route::post('/resend-verification', [RegisterController::class, 'resendVerification'])->name('resend.verification');
 
 
 Auth::routes(['verify' => true]);
+Route::get('/test', [AuthController::class, 'usersStatusCheck'])->name('getUsers');
+
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+Route::get('/verify/{token}', [RegisterController::class, 'verifyEmail'])->name('verify.email');
+
+
 
 Route::prefix('')->middleware(["auth", "verified", "permission:isActev"])->group(function () {
 
