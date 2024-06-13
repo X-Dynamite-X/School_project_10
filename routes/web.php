@@ -26,24 +26,28 @@ Route::get(
 //         return view('test');
 //     }
 // );
-Route::get(
-    '/waiting',
-    function () {
-        return view('auth.isNotActiv');
-    }
-)->middleware("guest");
-Route::get('/check-email', function () {
-    return view('auth.check-email');
-})->name('check.email');
-Route::post('/resend-verification', [RegisterController::class, 'resendVerification'])->name('resend.verification');
-
-
 Auth::routes(['verify' => true]);
-Route::get('/test', [AuthController::class, 'usersStatusCheck'])->name('getUsers');
 
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
-Route::get('/verify/{token}', [RegisterController::class, 'verifyEmail'])->name('verify.email');
 
+Route::prefix('')->middleware(["guest"])->group(function () {
+
+    Route::get(
+        '/waiting',
+        function () {
+            return view('auth.isNotActiv');
+        }
+    )->middleware("guest");
+    Route::get('/check-email', function () {
+        return view('auth.check-email');
+    })->name('check.email');
+    Route::post('/resend-verification', [RegisterController::class, 'resendVerification'])->name('resend.verification');
+
+
+    Route::get('/test', [AuthController::class, 'usersStatusCheck'])->name('getUsers');
+
+    Route::post('/register', [RegisterController::class, 'register'])->name('register');
+    Route::get('/verify/{token}', [RegisterController::class, 'verifyEmail'])->name('verify.email');
+});
 
 
 Route::prefix('')->middleware(["auth", "verified", "permission:isActev"])->group(function () {
