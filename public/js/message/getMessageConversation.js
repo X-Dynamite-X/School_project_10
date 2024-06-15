@@ -1,40 +1,7 @@
-// function subscribeToAllConversations() {
-//     $.ajax({
-//         url: "/getConversations", // Endpoint to get all conversations of the user
-//         method: "GET",
-//         success: function (res) {
-//             res.conversations.forEach((conversation) => {
-//                 subscribeToChannel(conversation.id);
-//             });
-//         },
-//         error: function (error) {
-//             console.log("Error fetching conversations:", error);
-//         },
-//     });
-// }
-// function subscribeToChannel(conversationId) {
-//             $.ajax({
-//                 url: `/message/${conversationId}/receive/messages`,
-//                 method: "POST",
-//                 data: {
-//                     _token: csrf_token,
-//                 },
-//                 success: function (res) {
-//                     console.log(res.message.conversation_id);
-//                 },
-//                 error: function (error) {
-//                     console.log("Error receiving message:", error);
-//                 },
-//             });
-//         }
-// subscribeToAllConversations();
-
-
-
 var channels = {};
 function subscribeToAllConversations() {
     $.ajax({
-        url: "/getConversations", // Endpoint to get all conversations of the user
+        url: "/getConversations",
         method: "GET",
         success: function (res) {
             res.conversations.forEach((conversation) => {
