@@ -49,17 +49,17 @@ class ConversationController extends Controller
         // جلب المحادثات
         $conversations = Conversation::where(function ($query) {
             $query->where('user1_id', auth()->user()->id)
-                  ->orWhere('user2_id', auth()->user()->id);
+                ->orWhere('user2_id', auth()->user()->id);
         })
-        ->with(['user1', 'user2', 'messages' => function ($query) {
-            $query->latest(); // ترتيب الرسائل داخل كل محادثة بناءً على الأحدث
-        }])
-        ->get()
-        ->sortByDesc(function ($conversation) {
-            return $conversation->messages->first()->created_at ?? $conversation->created_at;
-        })->values();
+            ->with(['user1', 'user2', 'messages' => function ($query) {
+                $query->latest(); // ترتيب الرسائل داخل كل محادثة بناءً على الأحدث
+            }])
+            ->get()
+            ->sortByDesc(function ($conversation) {
+                return $conversation->messages->first()->created_at ?? $conversation->created_at;
+            })->values();
 
-        $conversations->each(function ($conversation) {
+            $conversations->each(function ($conversation) {
             $conversation->user1->is_online = $conversation->user1->is_online ?? false;
             $conversation->user1->last_seen_at = $conversation->user1->last_seen_at ?? 'No data available';
 
@@ -103,6 +103,13 @@ class ConversationController extends Controller
         ], 201);
     }
 
+    public function chackConversations(Request $request){
+        dd($request);
+        $conversations = Conversation::find();
+    }
+
+
+
     public function store(Request $request)
     {
         //
@@ -127,14 +134,3 @@ class ConversationController extends Controller
         //
     }
 }
-// function formatMessageDate($created_at) {
-//     $date = Carbon::parse($created_at);
-
-//     if ($date->isToday()) {
-//         return $date->format('H:i'); // "اليوم" مع الساعة
-//     } elseif ($date->isYesterday()) {
-//         return 'أمس ' . $date->format('H:i'); // "أمس" مع الساعة
-//     } else {
-//         return $date->format('d/m/y H:i'); // التاريخ مع الساعة
-//     }
-// }

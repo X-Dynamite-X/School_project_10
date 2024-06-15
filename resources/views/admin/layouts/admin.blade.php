@@ -17,6 +17,8 @@
         <div class=" width-100">
             @include('admin.layouts.nav')
         </div>
+        <div class="notification" id="notification" style="display: none;"></div>
+
         <main class="flex ">
             @include('admin.layouts.sidebar')
             @yield('content_admin')
