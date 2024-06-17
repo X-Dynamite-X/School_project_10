@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Message;
 
+use App\Events\NewConversation;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Message;
@@ -94,6 +95,7 @@ class ConversationController extends Controller
         $receiver = $conversation->user1_id == $authUser ? $conversation->user2_id : $conversation->user1_id;
         $user = User::find($receiver);
         $authUser = User::find($authUser);
+        event(new NewConversation($conversation,$user , $authUser));
 
         return response()->json([
             'conversation' => $conversation,
@@ -103,10 +105,7 @@ class ConversationController extends Controller
         ], 201);
     }
 
-    public function chackConversations(Request $request){
-        dd($request);
-        $conversations = Conversation::find();
-    }
+
 
 
 

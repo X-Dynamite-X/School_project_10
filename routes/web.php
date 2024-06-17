@@ -1,9 +1,10 @@
 <?php
 
+use App\Events\NewMessage;
+
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SubjectController;
@@ -30,7 +31,6 @@ Auth::routes(['verify' => true]);
 
 
 Route::prefix('')->middleware(["guest"])->group(function () {
-
     Route::get(
         '/waiting',
         function () {

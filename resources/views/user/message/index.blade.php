@@ -10,9 +10,10 @@
     </div>
 @endsection
 @section('js')
-    <script src="{{ asset('js/message/search.js') }}"></script>
-    <script src="{{ asset('js/message/createConversation.js') }}"></script>
-    <script src="{{ asset('js/message/showConversation.js') }}"></script>
-    <script src="{{ asset('js/message/showChatConversation.js') }}"></script>
+    <script src="{{ asset('js/Conversation/search.js') }}"></script>
+    <script src="{{ asset('js/Conversation/NewConversation.js') }}"></script>
+    <script src="{{ asset('js/Conversation/createConversation.js') }}"></script>
+    <script src="{{ asset('js/Conversation/showConversation.js') }}"></script>
+    <script src="{{ asset('js/Conversation/showChatConversation.js') }}"></script>
     <script src="{{ asset('js/message/sendeMessage.js') }}"></script>
 @endsection
