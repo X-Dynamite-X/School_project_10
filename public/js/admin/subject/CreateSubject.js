@@ -42,9 +42,7 @@ $(document).ready(function () {
                 $("#errurMessageInputCodeSubject").text("");
                 $("#errurMessageInputSuccessMark").text("");
                 $("#errurMessageInputFullMark").text("");
-
                 $("#formSubject").find("input").val("");
-
                 $("#CreatSubject").addClass("hidden");
             },
             error: function (data) {
