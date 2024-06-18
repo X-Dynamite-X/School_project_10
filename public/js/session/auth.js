@@ -39,6 +39,7 @@ function updateUserStatus(userId, status, lastSeenAt) {
             }
         `;
         userElement.setAttribute("data-last-seen", status ? null : lastSeenAt);
+        
     }
 }
 function updateLastSeenTime() {
