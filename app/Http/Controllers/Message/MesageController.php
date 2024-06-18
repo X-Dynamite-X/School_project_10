@@ -69,7 +69,10 @@ class MesageController extends Controller
 
         broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
         $receiver = User::find($receiverId);
-        Notification::send($receiver, new NotificationMessage($receiver, $message->message_text));
+        if($receiver->status == false){
+
+            Notification::send($receiver, new NotificationMessage($receiver, $message->message_text));
+        }
         return response()->json(["message"=>$message]);
     }
 
