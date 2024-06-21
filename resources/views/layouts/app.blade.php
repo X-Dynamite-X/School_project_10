@@ -28,8 +28,10 @@
         @include('layouts.nav')
         <div class="notification" id="notification" style="display: none;"></div>
         @yield('content')
+        <audio id="notification_sound" src="{{ asset('sounds/massege_ting.mp3') }}" preload="auto" ></audio>
 
     </div>
+
     @auth
         <script>
             var userId = '{{ auth()->user()->id }}';

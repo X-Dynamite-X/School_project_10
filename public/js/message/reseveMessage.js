@@ -53,7 +53,6 @@
 
 //########################################33
 
-
 var channels = {};
 function subscribeToAllConversations() {
     $.ajax({
@@ -69,6 +68,10 @@ function subscribeToAllConversations() {
         },
     });
 }
+
+// let notification_sound = new Audio('../../sounds/massege_ting.mp3');
+
+// let notification_sound =  document.getElementById('notification_sound');
 var count = 0;
 function subscribeToChannel(conversationId) {
     var fetchConversationsTest = false;
@@ -90,47 +93,88 @@ function subscribeToChannel(conversationId) {
                 },
                 success: function (res) {
                     console.log(res);
-                    var conversationIdNowChat = $("#chatConversationSbace").data("conversation-id");
+                    var conversationIdNowChat = $(
+                        "#chatConversationSbace"
+                    ).data("conversation-id");
                     console.log(res.message.conversation_id);
-                    if (res.message.conversation_id == conversationIdNowChat ) {
-                        $.get("/templates/message/reseve.html",
+                    if (res.message.conversation_id == conversationIdNowChat) {
+                        $.get(
+                            "/templates/message/reseve.html",
                             function (template) {
                                 var reseveMessage = template
-                                    .replace(/\${senderImage}/g,"../../imageProfile/" + res.sender.image)
+                                    .replace(
+                                        /\${senderImage}/g,
+                                        "../../imageProfile/" + res.sender.image
+                                    )
                                     .replace(/\${messageDate}/g, res.date)
-                                    .replace(/\${messageText}/g,res.message.message_text);
-                                $(".message_spase >").last().after(reseveMessage);
+                                    .replace(
+                                        /\${messageText}/g,
+                                        res.message.message_text
+                                    );
+                                $(".message_spase >")
+                                    .last()
+                                    .after(reseveMessage);
                             }
                         );
                     }
                     $(document).scrollTop($(document).height());
-                    console.log("conversationIdNowChat == undefined:   "+conversationIdNowChat == undefined);
-                    if (res.message.conversation_id !== conversationIdNowChat || conversationIdNowChat == undefined) {
+                    console.log(
+                        "conversationIdNowChat == undefined:   " +
+                            conversationIdNowChat ==
+                            undefined
+                    );
+                    if (
+                        res.message.conversation_id !== conversationIdNowChat ||
+                        conversationIdNowChat == undefined
+                    ) {
                         count++;
-                        fetchConversationsTest = res.message.conversation_id ;
+                        fetchConversationsTest = res.message.conversation_id;
+                        if(userInteracted){
+
+                            let notificationSound =
+                            document.getElementById("notification_sound");
+                            notificationSound.play().catch((error) => {
+                                console.error("Audio play failed:", error);
+                            });
+                        }
                         if (count > 0) {
-                            document.getElementById(`notification`).style.display = "block";
+                            document.getElementById(
+                                `notification`
+                            ).style.display = "block";
                         }
                         //notification
                         $.get(
                             "/templates/notification/NotificationMessage.html",
                             function (template) {
                                 var notification = template
-                                    .replace(/\${senderImage}/g,"../../imageProfile/" + res.sender.image)
+                                    .replace(
+                                        /\${senderImage}/g,
+                                        "../../imageProfile/" + res.sender.image
+                                    )
                                     .replace(/\${senderName}/g, res.sender.name)
                                     .replace(/\${messageId}/g, res.message.id)
-                                    .replace(/\${conversationId}/g,data.conversation_id)
+                                    .replace(
+                                        /\${conversationId}/g,
+                                        data.conversation_id
+                                    )
                                     .replace(/\${messageDate}/g, res.date)
                                     .replace(/\${senderId}/g, res.sender.id)
-                                    .replace(/\${receiverId}/g, res.message.receiver_user_id)
-                                    .replace(/\${messageText}/g,res.message.message_text);
+                                    .replace(
+                                        /\${receiverId}/g,
+                                        res.message.receiver_user_id
+                                    )
+                                    .replace(
+                                        /\${messageText}/g,
+                                        res.message.message_text
+                                    );
                                 $(".notification").append(notification);
                             }
                         );
+
                         ferstconv = res.message.conversation_id;
-                        if (window.location.pathname == "/message" ) {
-                            if (ferstconv !== lastconv ) {
-                                lastconv = res.message.conversation_id ;
+                        if (window.location.pathname == "/message") {
+                            if (ferstconv !== lastconv) {
+                                lastconv = res.message.conversation_id;
                                 fetchConversations();
                             }
                         }

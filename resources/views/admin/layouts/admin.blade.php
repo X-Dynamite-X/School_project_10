@@ -23,6 +23,8 @@
             @include('admin.layouts.sidebar')
             @yield('content_admin')
         </main>
+        <audio id="notification_sound" src="{{ asset('sounds/massege_ting.mp3') }}" preload="auto"></audio>
+
     </div>
     <script>
         var userId = '{{ auth()->user()->id }}';

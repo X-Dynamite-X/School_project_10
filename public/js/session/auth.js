@@ -39,7 +39,6 @@ function updateUserStatus(userId, status, lastSeenAt) {
             }
         `;
         userElement.setAttribute("data-last-seen", status ? null : lastSeenAt);
-        
     }
 }
 function updateLastSeenTime() {
@@ -104,6 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
     function resetTimer() {
         clearTimeout(time);
         if (!currentUserStatus) {
+            userInteracted = true;
+
             setUserStatus(userId, true);
             console.log("done");
 
@@ -140,12 +141,15 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("unload", function () {
         if (currentUserStatus) {
             setInactive();
+            userInteracted = true;
             localStorage.setItem("userStatus", "offline");
             localStorage.setItem("openBrowser", "true");
         }
     });
 
     window.addEventListener("load", function () {
+        // let notification_sound = new Audio('../../sounds/massege_ting.mp3');
+
         if (localStorage.getItem("openBrowser") == "true") {
             if (localStorage.getItem("userStatus") === "offline") {
                 currentUserStatus = true;
@@ -158,9 +162,59 @@ document.addEventListener("DOMContentLoaded", function () {
     fetchUserStatus();
     let time;
     window.onload = resetTimer;
+    window.onbeforeunload = resetTimer;
+    window.onloadstart = resetTimer;
+    window.onsta = resetTimer;
+
+
     document.onmousemove = resetTimer;
     document.onkeypress = resetTimer;
     document.onscroll = resetTimer;
     document.onclick = resetTimer;
+    document.onbeforeinput = resetTimer;
 });
-console.log(localStorage.getItem("openBrowser"));
+
+let audio;
+let notification_sound;
+
+// document.addEventListener("DOMContentLoaded", (event) => {
+//     audio = new Audio("../../sounds/massege_ting.mp3");
+//     notification_sound = document.getElementById("notification_sound");
+//     document.addEventListener("beforeunload", (event) => {
+//         // تخصيص الصوت فقط
+//         audio = new Audio("../../sounds/massege_ting.mp3");
+//         notification_sound = document.getElementById("notification_sound");
+//     });
+// });
+// notification_sound = window.document.getElementById("notification_sound").play();
+// console.log(notification_sound);
+
+// notification_sound.play();
+// let xx =$("audio#notification_sound").nativeElemnt;
+// xx.nativeElemnt;
+// console.log(xx[0].play());
+// console.log(xx);
+let userInteracted = false;
+
+const resetTimer = () => {
+    userInteracted = true;
+    removeEventListeners();
+};
+
+const removeEventListeners = () => {
+    window.removeEventListener("load", resetTimer);
+    document.removeEventListener("mousemove", resetTimer);
+    document.removeEventListener("keypress", resetTimer);
+    document.removeEventListener("scroll", resetTimer);
+    document.removeEventListener("click", resetTimer);
+
+};
+
+// إضافة مستمعات للأحداث
+window.addEventListener("load", resetTimer);
+
+document.addEventListener("mousemove", resetTimer);
+document.addEventListener("keypress", resetTimer);
+document.addEventListener("scroll", resetTimer);
+document.addEventListener("click", resetTimer);
+notification_sound = document.getElementById("notification_sound");
