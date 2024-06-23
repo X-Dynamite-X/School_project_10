@@ -4,7 +4,6 @@ $(document).ready(function () {
             url: "getSubject",
             type: "GET",
             dataSrc: function (json) {
-                console.log("Received JSON:", json); // طباعة البيانات في وحدة التحكم للتأكد من الاستجابة
                 if (json && json.data) {
                     return json.data;
                 } else {
