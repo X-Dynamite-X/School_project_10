@@ -176,24 +176,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 let audio;
 let notification_sound;
-
-// document.addEventListener("DOMContentLoaded", (event) => {
-//     audio = new Audio("../../sounds/massege_ting.mp3");
-//     notification_sound = document.getElementById("notification_sound");
-//     document.addEventListener("beforeunload", (event) => {
-//         // تخصيص الصوت فقط
-//         audio = new Audio("../../sounds/massege_ting.mp3");
-//         notification_sound = document.getElementById("notification_sound");
-//     });
-// });
-// notification_sound = window.document.getElementById("notification_sound").play();
-// console.log(notification_sound);
-
-// notification_sound.play();
-// let xx =$("audio#notification_sound").nativeElemnt;
-// xx.nativeElemnt;
-// console.log(xx[0].play());
-// console.log(xx);
 let userInteracted = false;
 
 const resetTimer = () => {
