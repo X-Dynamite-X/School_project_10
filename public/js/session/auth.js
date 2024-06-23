@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             currentUserStatus = true;
         }
-        time = setTimeout(setInactive, 600000);
+        time = setTimeout(setInactive, 6000);
     }
     function setUserStatus(userId, status) {
         $.ajax({

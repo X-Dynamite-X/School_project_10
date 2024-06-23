@@ -35,7 +35,7 @@
                 src="{{ asset('imageProfile/' . $conversation->user1->image) }}"data-img_avatar1="{{ asset('imageProfile/' . $conversation->user1->image) }}"
                 alt="">
             <h2 class="text-2xl font-semibold inline">{{ $conversation->user1->name }}</h2>
-            <p class="text-xs status inline" id="user-status-{{ $conversation->user1->id }}"
+            <p class="text-xs status inline" id="user-status-chat-{{ $conversation->user1->id }}"
                 data-last-seen="{{ $conversation->user1->status ? 'null' : $conversation->user1->last_seen_at }}">
                 @if ($conversation->user1->status == 1)
                     <span class="text-green-500 inline">Online
