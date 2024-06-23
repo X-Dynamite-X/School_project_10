@@ -17,13 +17,17 @@ class CheackConversationInUser
     public function handle(Request $request, Closure $next): Response
     {
         $authId = auth()->user()->id;
-        $conversation =Conversation::find($request->conversation_id);
-        // ->where("user1_id",$authId)
-        // ->orWhere("user2_id",$authId)->get();
-        if($conversation->user1_id ==$authId || $conversation->user2_id ==$authId ){
+        $conversation = Conversation::where('id', $request->conversation_id)
+                                    ->where(function ($query) use ($authId) {
+                                        $query->where('user1_id', $authId)
+                                              ->orWhere('user2_id', $authId);
+                                    })
+                                    ->first();
 
+        if ($conversation) {
             return $next($request);
-        };
+        }
+
         return response()->json([
             'User does not have the right permissions.'
             ],403);
