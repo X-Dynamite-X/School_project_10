@@ -15,8 +15,8 @@ channel.bind("user-status-changed", function (data) {
     );
 });
 function updateUserStatus(userId, status, lastSeenAt) {
-    const userElement = document.getElementById(`user-status-${userId}`);
-    if (userElement) {
+    const userElement1 = document.getElementById(`user-status-${userId}`);
+    if (userElement1) {
         const statusClass = status
             ? "text-green-500 "
             : "text-red-500 inline-block flex justify-end";
@@ -25,7 +25,7 @@ function updateUserStatus(userId, status, lastSeenAt) {
         if (!status && lastSeenAt !== null) {
             lastSeenText = `Last seen Just now`;
         }
-        userElement.innerHTML = `
+        userElement1.innerHTML = `
             <span class="${statusClass} inline">
                 ${statusText}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 inline">
@@ -38,7 +38,37 @@ function updateUserStatus(userId, status, lastSeenAt) {
                     : ""
             }
         `;
-        userElement.setAttribute("data-last-seen", status ? null : lastSeenAt);
+        userElement1.setAttribute("data-last-seen", status ? null : lastSeenAt);
+        const userElemen2 = document.getElementById(
+            `user-status-chat-${userId}`
+        );
+        if (userElemen2) {
+            const statusClass = status
+                ? "text-green-500 inline"
+                : "text-red-500 inline  ";
+            const statusText = status ? "Online" : "Offline";
+            let lastSeenText = "I'm not login yeat";
+            if (!status && lastSeenAt !== null) {
+                lastSeenText = `Last seen Just now`;
+            }
+            userElemen2.innerHTML = `
+            <span class="${statusClass} inline">
+                ${statusText}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4 inline">
+                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z" />
+                </svg>
+            </span>
+            ${
+                !status
+                    ? `<span class="block ml-5" id="data-last-seen-${userId}">${lastSeenText}</span>`
+                    : ""
+            }
+        `;
+            userElemen2.setAttribute(
+                "data-last-seen",
+                status ? null : lastSeenAt
+            );
+        }
     }
 }
 function updateLastSeenTime() {
@@ -166,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.onloadstart = resetTimer;
     window.onsta = resetTimer;
 
-
     document.onmousemove = resetTimer;
     document.onkeypress = resetTimer;
     document.onscroll = resetTimer;
@@ -189,7 +218,6 @@ const removeEventListeners = () => {
     document.removeEventListener("keypress", resetTimer);
     document.removeEventListener("scroll", resetTimer);
     document.removeEventListener("click", resetTimer);
-
 };
 
 // إضافة مستمعات للأحداث
