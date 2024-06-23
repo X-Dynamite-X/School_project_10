@@ -178,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     window.addEventListener("load", function () {
-        // let notification_sound = new Audio('../../sounds/massege_ting.mp3');
 
         if (localStorage.getItem("openBrowser") == "true") {
             if (localStorage.getItem("userStatus") === "offline") {
@@ -222,7 +221,6 @@ const removeEventListeners = () => {
 
 // إضافة مستمعات للأحداث
 window.addEventListener("load", resetTimer);
-
 document.addEventListener("mousemove", resetTimer);
 document.addEventListener("keypress", resetTimer);
 document.addEventListener("scroll", resetTimer);
