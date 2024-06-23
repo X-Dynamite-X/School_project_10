@@ -18,11 +18,11 @@ class CheackConversationInUser
     {
         $authId = auth()->user()->id;
         $conversation = Conversation::where('id', $request->conversation_id)
-                                    ->where(function ($query) use ($authId) {
-                                        $query->where('user1_id', $authId)
-                                              ->orWhere('user2_id', $authId);
-                                    })
-                                    ->first();
+            ->where(function ($query) use ($authId) {
+                $query->where('user1_id', $authId)
+                    ->orWhere('user2_id', $authId);
+            })
+            ->first();
 
         if ($conversation) {
             return $next($request);
@@ -30,6 +30,6 @@ class CheackConversationInUser
 
         return response()->json([
             'User does not have the right permissions.'
-            ],403);
+        ], 403);
     }
 }
