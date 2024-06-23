@@ -15,7 +15,7 @@ $(document).on("click", ".createConversation", function () {
             var authUser = data.authUser;
             last_seen_at =data.user.last_seen_at;
 
-            console.log(authUser);
+            console.log(data);
             subscribeToChannel(conversation.id);
             $("#search").val("");
             $(".contacts_search").empty();
@@ -86,7 +86,7 @@ $(document).on("click", ".createConversation", function () {
             user_status =data.user.status;
             user_email =data.user.email;
             last_seen_at =data.user.last_seen_at;
-            id= conversation;
+            id= conversation.id;
 
 
             $.get("/templates/message/contact.html", function (template) {

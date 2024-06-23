@@ -16,6 +16,7 @@ class CheackConversationInUser
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // dd($request->conversation_id);
         $authId = auth()->user()->id;
         $conversation = Conversation::where('id', $request->conversation_id)
             ->where(function ($query) use ($authId) {
