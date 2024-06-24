@@ -107,20 +107,55 @@ class MesageController extends Controller
         ]);
     }
 
-    public function create()
+    public function getMessage($getMessage)
     {
         //
+        $message = Message::find($getMessage);
+
+        if ($message) {
+            return response()->json($message);
+        } else {
+            return response()->json(['error' => 'message not found'], 404);
+        }
     }
 
     public function edit(string $id)
     {
+
     }
 
-    public function update(Request $request, string $id)
+    // public function update($request, $messages_id)
+    // {
+    //     // dd($request);
+    //     $messages = Message::find($messages_id)->first();
+    //     $messages->message_text = $request->input('editMessageText');
+    //     $messages->save();
+    //     return response("done");
+    // }
+    public function update(Request $request, $conversation_id, $messages_id)
     {
+        // تحقق من صحة البيانات المستلمة
+        $validatedData = $request->validate([
+            'editMessageText' => 'required|string|max:255',
+        ]);
+
+        // ابحث عن الرسالة المطلوبة
+        $messages = Message::find($messages_id);
+        if (!$messages) {
+            return response()->json(['error' => 'Message not found'], 404);
+        }
+
+        // حدث نص الرسالة واحفظ التغييرات
+        $messages->message_text = $validatedData['editMessageText'];
+        $messages->save();
+
+        return response()->json(['success' => true, 'message_text' => $messages->message_text, 'id' => $messages->id]);
     }
-    public function destroy(string $id)
+    public function destroy($messages_id)
     {
+        $messages = Message::find($messages_id)->first();
+        $messages->delete();
+        return response()->json($messages);
     }
 
 }

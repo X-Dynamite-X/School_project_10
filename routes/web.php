@@ -63,11 +63,17 @@ Route::prefix('')->middleware(["auth", "verified", "permission:isActev"])->group
 
     Route::get('/message', [MesageController::class, 'index'])->name('message_index');
     Route::post('/ConversationController/{user1_id}/{user2_id}', [ConversationController::class, 'create'])->name('create_ConversationController');
+    //###################3
+    Route::get('/getMessage/{messages_id}', [MesageController::class, 'getMessage'])->name('getMessage_index');
+    Route::put("/message/{conversation_id}/broadcast/messages/update/{messages_id}", [MesageController::class, 'update'])->name('update_ConversationController');
+    Route::delete("/message/{conversation_id}/broadcast/messages/delete/{messages_id}", [MesageController::class, 'destroy'])->name('destroy_ConversationController');
 
     Route::prefix('')->middleware(["cheackConversation"])->group(function () {
         Route::get("/message/{conversation_id}", [MesageController::class, 'show'])->name('show_ConversationController');
         Route::post("/message/{conversation_id}/broadcast/messages", [MesageController::class, 'store'])->name('store_ConversationController');
         Route::post("/message/{conversation_id}/receive/messages", [MesageController::class, 'receiveMessages'])->name('receive_ConversationController');
+
+
     });
 });
 

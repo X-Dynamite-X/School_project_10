@@ -6,6 +6,11 @@
             <div class="chatCode w-4/5" >
                 @include('user.message.startPage')
             </div>
+            <div class="modle">
+                <div class="editMessageTextModle"></div>
+                <div class="deleteMessageTextModle"></div>
+
+            </div>
         </main>
     </div>
 @endsection
@@ -16,4 +21,8 @@
     <script src="{{ asset('js/Conversation/showConversation.js') }}"></script>
     <script src="{{ asset('js/Conversation/showChatConversation.js') }}"></script>
     <script src="{{ asset('js/message/sendeMessage.js') }}"></script>
+    <script src="{{ asset('js/message/styleBoxMessage.js') }}"></script>
+    <script src="{{ asset('js/message/updateMessage.js') }}"></script>
+
+
 @endsection

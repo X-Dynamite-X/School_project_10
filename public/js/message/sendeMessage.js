@@ -11,7 +11,7 @@ $(document).on("click", ".send_btn_input", function () {
     if(messageText.length >0){
 
         var messageElement = `<div class="flex justify-end mb-4 items-end">
-        <div class="bg-green-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block relative min-w-40  max-w-sm w-1/5">
+        <div class="bg-green-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block relative min-w-40  max-w-sm w-1/5 break-words">
         <p class="break-words text-left items-end">${messageText}</p>
         <div class="absolute bottom-0 right-0 flex items-end space-x-1">
         <span class="text-gray-200 text-xs">
