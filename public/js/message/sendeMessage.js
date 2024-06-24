@@ -32,8 +32,6 @@ $(document).on("click", ".send_btn_input", function () {
 
         $("#message_text").val("");
     $(document).scrollTop($(document).height());
-    // أرسل الرسالة إلى الخادم
-    $(document).scrollTop($(document).height());
     $.ajax({
         url: `/message/${conversationId}/broadcast/messages`,
         type: "POST",
@@ -43,6 +41,7 @@ $(document).on("click", ".send_btn_input", function () {
         },
 
         success: function (response) {
+            console.log(response);
             var firstConversation = $(".myContacts li").first();
             if (firstConversation.data("conversation_id") !== conversationId) {
                 fetchConversations();
