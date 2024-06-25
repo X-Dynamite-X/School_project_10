@@ -1,3 +1,5 @@
+var countClick = 0;
+var successCount = 0;
 $(document).on("click", ".send_btn_input", function () {
     var conversationId = $(this).data("conversation_id_inbut");
     var form = $("#chatForm");
@@ -8,12 +10,15 @@ $(document).on("click", ".send_btn_input", function () {
     const hours = now.getHours().toString().padStart(2, "0");
     const minutes = now.getMinutes().toString().padStart(2, "0");
     const date = `Today :${hours}:${minutes}`;
+    console.log(countClick);
     if (messageText.length > 0) {
+    countClick++;
+
         var messageElement = `
         <div class="flex justify-end mb-4 items-end">
             <div class="bg-green-500 text-white p-3 rounded-tl-lg rounded-bl-lg rounded-tr-lg inline-block relative min-w-40 max-w-sm w-1/5 break-words">
-                    <div class="relative break-words flex flex-col space-y-2 temp-message">
-                        <p class="break-words text-left items-end addId">${messageText}</p>
+                    <div class="relative break-words flex flex-col space-y-2 " id="temp_message_${countClick}">
+                        <p class="break-words text-left items-end "id="addId_${countClick}">${messageText}</p>
                     </div>
             <div class="absolute bottom-0 right-0 flex items-end space-x-1">
                     <span class="text-gray-200 text-xs">${date}</span>
@@ -42,6 +47,7 @@ $(document).on("click", ".send_btn_input", function () {
             },
             success: function (response) {
                 console.log(response);
+                successCount++;
                 var firstConversation = $(".myContacts li").first();
                 if (
                     firstConversation.data("conversation_id") !== conversationId
@@ -87,11 +93,10 @@ $(document).on("click", ".send_btn_input", function () {
                     </div>
                 </div>
                 `;
+                console.log(successCount);
 
-                $(".temp-message").prepend(newMessageElement);
-                $(".temp-message").removeClass("temp-message");
-                $(".addId").attr('id', `message_text_${message.id}`);
-                $(".addId").removeClass("addId");
+                $(`#temp_message_${successCount}`).prepend(newMessageElement);
+                $(`#addId_${successCount}`).attr('id', `message_text_${message.id}`);
 
             },
             error: function (response) {
