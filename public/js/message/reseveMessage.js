@@ -1,5 +1,6 @@
 var channels = {};
 var receivedMessages = new Set();
+var count = 0 ;
 function subscribeToAllConversations() {
     $.ajax({
         url: "/getConversations",
@@ -25,15 +26,15 @@ function subscribeToChannel(conversationId) {
         });
 
         channel.bind("conversation", function (data) {
-            if (!receivedMessages.has(data.message_id)) {
-                receivedMessages.add(data.message_id);
+            if (!receivedMessages.has(data.message.id)) {
+                receivedMessages.add(data.message.id);
 
                 $.ajax({
                     url: `/message/${conversationId}/receive/messages`,
                     method: "POST",
                     data: {
                         _token: csrf_token,
-                        messageId: data.message_id,
+                        messageId: data.message.id,
                     },
                     success: function (res) {
                         handleNewMessage(res, conversationId);
@@ -70,7 +71,7 @@ function handleNewMessage(res, conversationId) {
         handleNotification(res);
     }
 }
-var count=0;
+
 function handleNotification(res) {
     count++;
     if (userInteracted) {
@@ -102,7 +103,6 @@ function handleNotification(res) {
 }
 
 subscribeToAllConversations();
-
 
 function closeNotification(id) {
     document.getElementById(`notification_${id}`).remove();

@@ -13,28 +13,15 @@ use Illuminate\Queue\SerializesModels;
 class MessageUserEvent implements ShouldBroadcast
 {
     use InteractsWithSockets, SerializesModels;
-
-    public $conversation_id;
-    public $sender_user_id;
-    public $receiver_user_id;
-    public $message_text;
-    public $message_id;
-
-
-    public function __construct($conversation_id, $sender_user_id, $receiver_user_id, $message_text,$message_id)
+    public $message;
+    public function __construct($message)
     {
-        $this->conversation_id = $conversation_id;
-        $this->sender_user_id = $sender_user_id;
-        $this->receiver_user_id = $receiver_user_id;
-        $this->message_text = $message_text;
-        $this->message_id = $message_id;
-
+        $this->message = $message;
     }
     public function broadcastOn()
     {
-        return new Channel('conversation' . $this->conversation_id);
+        return new Channel('conversation' . $this->message->conversation_id);
     }
-
     public function broadcastAs()
     {
         return 'conversation';
