@@ -17,6 +17,7 @@ use App\Events\MessageSentNotification;
 use App\Notifications\NotificationMessage;
 use Helpers;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\ValidationException;
 
 class MesageController extends Controller
 {
@@ -40,41 +41,49 @@ class MesageController extends Controller
         return view("user.message.index", ["conversations" => $conversations,]);
     }
 
-
     public function store(Request $request, $conversation_id)
     {
+        try {
+            $conversation = Conversation::findOrFail($conversation_id);
 
+            if ($conversation->user1_id != auth()->user()->id && $conversation->user2_id != auth()->user()->id) {
+                Log::error('Unauthorized access attempt', ['user_id' => auth()->user()->id, 'conversation_id' => $conversation_id]);
+                return response()->json(['error' => 'Unauthorized'], 403);
+            }
 
-        $conversation = Conversation::findOrFail($conversation_id);
+            $request->validate([
+                'message_text' => 'required|string|max:1000',
+            ]);
 
-        if ($conversation->user1_id != auth()->user()->id && $conversation->user2_id != auth()->user()->id) {
-            Log::error('Unauthorized access', ['user_id' => auth()->user()->id]);
-            return response()->json(['error' => 'Unauthorized'], 403);
+            $sender = auth()->user()->id;
+            $receiverId = $conversation->user1_id == $sender ? $conversation->user2_id : $conversation->user1_id;
+
+            $message = Message::create([
+                "conversation_id" => $conversation_id,
+                "sender_user_id" => $sender,
+                "receiver_user_id" => $receiverId,
+                "message_text" => $request->input("message_text"),
+            ]);
+
+            broadcast(new MessageUserEvent($message))->toOthers();
+
+            $receiver = User::find($receiverId);
+            if ($receiver->status == false) {
+                Notification::send($receiver, new NotificationMessage($receiver, $message->message_text));
+            }
+
+            return response()->json(["message" => $message]);
+
+        }catch (ValidationException $e) {
+            Log::error('Validation failed', ['errors' => $e->errors()]);
+            return response()->json(['error' => 'Validation failed', 'messages' => $e->errors()], 422);
+
+        } catch (\Exception $e) {
+            Log::error('An unexpected error occurred', ['exception' => $e->getMessage()]);
+            return response()->json(['error' => 'An unexpected error occurred'], 500);
         }
-
-        $request->validate([
-            'message_text' => 'required',
-        ]);
-
-        $sender = auth()->user()->id;
-        $receiverId = $conversation->user1_id == $sender ? $conversation->user2_id : $conversation->user1_id;
-
-        $message = Message::create([
-            "conversation_id" => $conversation_id,
-            "sender_user_id" => $sender,
-            "receiver_user_id" => $receiverId,
-            "message_text" => $request->input("message_text"),
-        ]);
-
-
-        broadcast(new MessageUserEvent($message))->toOthers();
-        $receiver = User::find($receiverId);
-        if($receiver->status == false){
-
-            Notification::send($receiver, new NotificationMessage($receiver, $message->message_text));
-        }
-        return response()->json(["message"=>$message]);
     }
+
 
 
     public function receiveMessages(Request $request, $conversation_id)
