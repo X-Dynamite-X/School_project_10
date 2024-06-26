@@ -67,7 +67,7 @@ class MesageController extends Controller
         ]);
 
 
-        broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text))->toOthers();
+        broadcast(new MessageUserEvent($message->conversation_id, $message->sender_user_id, $message->receiver_user_id, $message->message_text,$message->id))->toOthers();
         $receiver = User::find($receiverId);
         if($receiver->status == false){
 
@@ -79,9 +79,17 @@ class MesageController extends Controller
 
     public function receiveMessages(Request $request, $conversation_id)
     {
-        $message = Message::where("conversation_id", $conversation_id)->latest()->first();
-        $date =Helpers::formatMessageDate($message->created_at);
-        return response()->json(["message" => $message, "sender" => $message->sender, "date" => $date], 200);
+        $messageId = $request->input('messageId');
+        $message = Message::where("conversation_id", $conversation_id)
+                    ->where("id", $messageId)
+                    ->first();
+
+        if ($message) {
+            $date = Helpers::formatMessageDate($message->created_at);
+            return response()->json(["message" => $message, "sender" => $message->sender, "date" => $date], 200);
+        } else {
+            return response()->json(["error" => "Message not found"], 404);
+        }
     }
 
 

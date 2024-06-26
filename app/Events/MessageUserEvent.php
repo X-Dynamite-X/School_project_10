@@ -18,13 +18,17 @@ class MessageUserEvent implements ShouldBroadcast
     public $sender_user_id;
     public $receiver_user_id;
     public $message_text;
+    public $message_id;
 
-    public function __construct($conversation_id, $sender_user_id, $receiver_user_id, $message_text)
+
+    public function __construct($conversation_id, $sender_user_id, $receiver_user_id, $message_text,$message_id)
     {
         $this->conversation_id = $conversation_id;
         $this->sender_user_id = $sender_user_id;
         $this->receiver_user_id = $receiver_user_id;
         $this->message_text = $message_text;
+        $this->message_id = $message_id;
+
     }
     public function broadcastOn()
     {
