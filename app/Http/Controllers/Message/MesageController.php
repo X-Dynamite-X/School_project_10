@@ -173,11 +173,18 @@ class MesageController extends Controller
 
         return response()->json(['success' => true, 'message_text' => $messages->message_text, 'id' => $messages->id]);
     }
-    public function destroy($messages_id)
+    public function destroy(Request $request, $conversation_id,$messages_id)
     {
-        $messages = Message::find($messages_id)->first();
-        $messages->delete();
-        return response()->json($messages);
+        $message = Message::find($messages_id);
+
+        if (!$message) {
+            return response()->json(['error' => 'Message not found'], 404);
+        }
+
+        $message->delete();
+
+        return response()->json(['message' => 'Message deleted successfully',"data" =>$message]);
     }
+
 
 }

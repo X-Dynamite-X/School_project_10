@@ -77,7 +77,7 @@
                                         </svg>
                                         Edit
                                     </li>
-                                    <li class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center delete-button" data-message_con_id="{{ $messageId }}" data-message_id="{{ $message->id }}">
+                                    <li class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center delete-button" data-message_con_id="{{ $messageId }}" data-message_id="{{ $message->id }}" onclick="showDeleteMessageModal({{ $message->id }})">
                                         <svg class="w-5 h-5 text-red-500 mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>

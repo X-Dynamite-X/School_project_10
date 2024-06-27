@@ -23,6 +23,8 @@
     <script src="{{ asset('js/message/sendeMessage.js') }}"></script>
     <script src="{{ asset('js/message/styleBoxMessage.js') }}"></script>
     <script src="{{ asset('js/message/updateMessage.js') }}"></script>
+    <script src="{{ asset('js/message/deleteMessage.js') }}"></script>
+
 
 
 @endsection
