@@ -93,7 +93,7 @@
                     @endif
                     <p class="break-words text-left flex-1 message-text" id="message_text_{{$message->id}}">{{ $message->message_text }}</p>
                 </div>
-                <div class="absolute bottom-0 right-0 flex items-end space-x-1 pr-5">
+                <div class="absolute bottom-0 right-0 flex items-end space-x-1 pr-5 pb-2">
                     <span class="text-gray-200 text-xs">{{ Helpers::formatMessageDate($message->created_at) }}</span>
                     @if ($isSender)
                         <svg width="1rem" height="1rem" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
