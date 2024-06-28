@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Message;
 
+use App\Events\deleteMessageEvent;
+use App\Events\updateMessageEvent;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Message;
@@ -146,34 +148,28 @@ class MesageController extends Controller
 
     }
 
-    // public function update($request, $messages_id)
-    // {
-    //     // dd($request);
-    //     $messages = Message::find($messages_id)->first();
-    //     $messages->message_text = $request->input('editMessageText');
-    //     $messages->save();
-    //     return response("done");
-    // }
-    public function update(Request $request, $conversation_id, $messages_id)
+
+    public function update(Request $request, $conversation_id, $message_id)
     {
-        // تحقق من صحة البيانات المستلمة
         $validatedData = $request->validate([
             'editMessageText' => 'required|string|max:255',
         ]);
 
-        // ابحث عن الرسالة المطلوبة
-        $messages = Message::find($messages_id);
-        if (!$messages) {
+        $message = Message::find($message_id);
+        if (!$message) {
             return response()->json(['error' => 'Message not found'], 404);
         }
 
-        // حدث نص الرسالة واحفظ التغييرات
-        $messages->message_text = $validatedData['editMessageText'];
-        $messages->save();
+        $message->message_text = $validatedData['editMessageText'];
+        $message->save();
 
-        return response()->json(['success' => true, 'message_text' => $messages->message_text, 'id' => $messages->id]);
+        broadcast(new UpdateMessageEvent($message));
+
+        return response()->json(['success' => true, 'message_text' => $message->message_text, 'id' => $message->id]);
     }
-    public function destroy(Request $request, $conversation_id,$messages_id)
+
+
+    public function destroy($conversation_id,$messages_id)
     {
         $message = Message::find($messages_id);
 
@@ -181,7 +177,9 @@ class MesageController extends Controller
             return response()->json(['error' => 'Message not found'], 404);
         }
 
+        broadcast(new deleteMessageEvent($message));
         $message->delete();
+
 
         return response()->json(['message' => 'Message deleted successfully',"data" =>$message]);
     }

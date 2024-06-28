@@ -74,7 +74,12 @@ function displayMessage(res, conversationIdNowChat) {
         $.get("/templates/message/reseve.html", function (template) {
             var reseveMessage = template
                 .replace(/\${senderImage}/g, "../../imageProfile/" + res.sender.image)
+                .replace(/\${messageId}/g, res.message.id)
+                .replace(/\${conversationId}/g, res.message.conversation_id)
                 .replace(/\${messageDate}/g, res.date)
+                .replace(/\${senderId}/g, res.sender.id)
+                .replace(/\${senderName}/g, res.sender.name)
+                .replace(/\${receiverId}/g, res.message.receiver_user_id)
                 .replace(/\${messageText}/g, res.message.message_text);
             $(".message_spase >").last().after(reseveMessage);
         });

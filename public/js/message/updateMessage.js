@@ -42,7 +42,7 @@ $(document).on('click', '.editTextMessageButton', function() {
         data: formData,
         success: function (data) {
             if (data.success) {
-                console.log(data);
+                // console.log(data);
                 $("#errurMessageEditTextMessage_" + data.id).text("");
                 $("#errurMessageEditTextMessage_" + data.id).text(data.message_text);
                 $('#EditMessageText_' + data.id).remove();

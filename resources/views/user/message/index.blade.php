@@ -24,6 +24,9 @@
     <script src="{{ asset('js/message/styleBoxMessage.js') }}"></script>
     <script src="{{ asset('js/message/updateMessage.js') }}"></script>
     <script src="{{ asset('js/message/deleteMessage.js') }}"></script>
+    <script src="{{ asset('js/message/updateEventMessage.js') }}"></script>
+    <script src="{{ asset('js/message/deleteEventMessage.js') }}"></script>
+
 
 
 

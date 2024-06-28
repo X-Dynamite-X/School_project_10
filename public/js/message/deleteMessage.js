@@ -49,7 +49,7 @@ $(document).on("click", ".buttonDeleteMessage", function () {
         success: function (message) {
             var message =message.data
             var messageId =`#con_${message.conversation_id}_sender_${message.sender_user_id}_receiver_${message.receiver_user_id}_message_${message.id}`;
-            $(messageId).remove()
+            $(`${messageId}`).remove()
             hideAllModals()
             console.log(message);
         },

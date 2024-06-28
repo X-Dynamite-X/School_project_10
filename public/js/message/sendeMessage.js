@@ -15,7 +15,7 @@ $(document).on("click", ".send_btn_input", function () {
                 <div class="relative break-words flex flex-col space-y-2 " id="temp_message_${countClick}">
                     <p class="break-words text-left items-end" id="addId_${countClick}">${messageText}</p>
                 </div>
-                <div class="absolute bottom-0 right-0 flex items-end space-x-1 pr-5 pb-2" id="timeCheack_${countClick}">
+                <div class="absolute bottom-0 right-0 flex items-end space-x-1 pr-5 " id="timeCheack_${countClick}">
                     <span class="text-gray-200 text-xs" id="createdAt_${countClick}"></span>
                         <svg viewBox="0 0 20 20" width="1rem" height="1rem" xmlns="http://www.w3.org/2000/svg" fill="none" id="svgSendMessage_${countClick}">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
