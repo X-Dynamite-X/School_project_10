@@ -1,67 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏫 School Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-8.1+-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Pusher](https://img.shields.io/badge/Pusher-300D4F?style=for-the-badge&logo=pusher&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**نظام إدارة مدرسي متكامل مع نظام رسائل فورية**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[المميزات](#-المميزات) • [التثبيت](#-التثبيت) • [الاستخدام](#-الاستخدام) • [API](#-api-documentation) • [المساهمة](#-المساهمة)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+</div>
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📋 نظرة عامة
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+نظام إدارة مدرسي شامل مبني بـ Laravel 10 يوفر:
+- **إدارة الطلاب والمواد الدراسية**
+- **نظام رسائل فورية متقدم**
+- **نظام أدوار وصلاحيات**
+- **لوحة تحكم إدارية**
+- **تتبع الدرجات والحضور**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## ✨ المميزات
 
-## Laravel Sponsors
+### 🎓 إدارة أكاديمية
+- ✅ إدارة الطلاب والمدرسين
+- ✅ إدارة المواد الدراسية
+- ✅ نظام الدرجات والتقييم
+- ✅ تتبع الأداء الأكاديمي
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 💬 نظام الرسائل الفورية
+- ✅ محادثات فورية بين المستخدمين
+- ✅ إشعارات فورية
+- ✅ تتبع حالة المستخدم (متصل/غير متصل)
+- ✅ إرسال إشعارات بالبريد الإلكتروني
 
-### Premium Partners
+### 🔐 الأمان والمصادقة
+- ✅ نظام مصادقة متقدم
+- ✅ أدوار وصلاحيات (Admin/User)
+- ✅ تأكيد البريد الإلكتروني
+- ✅ إدارة الجلسات
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 🎨 واجهة المستخدم
+- ✅ تصميم متجاوب (Responsive)
+- ✅ واجهة حديثة مع TailwindCSS
+- ✅ تجربة مستخدم سلسة
+- ✅ لوحة تحكم إدارية
 
-## Contributing
+## 🛠️ التقنيات المستخدمة
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| التقنية | الإصدار | الغرض |
+|---------|---------|-------|
+| **Laravel** | 10.x | إطار العمل الرئيسي |
+| **PHP** | 8.1+ | لغة البرمجة |
+| **MySQL** | 8.0+ | قاعدة البيانات |
+| **TailwindCSS** | 3.4+ | تنسيق الواجهة |
+| **Pusher** | 7.2+ | الرسائل الفورية |
+| **jQuery** | 3.x | التفاعل مع الواجهة |
+| **DataTables** | - | جداول البيانات |
 
-## Code of Conduct
+## 📦 التثبيت
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### المتطلبات الأساسية
+- PHP >= 8.1
+- Composer
+- Node.js & NPM
+- MySQL >= 8.0
+- حساب Pusher (للرسائل الفورية)
 
-## Security Vulnerabilities
+### خطوات التثبيت
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. **استنساخ المشروع**
+```bash
+git clone https://github.com/your-username/SchoolProject10.git
+cd SchoolProject10
+```
 
-## License
+2. **تثبيت التبعيات**
+```bash
+# تثبيت تبعيات PHP
+composer install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# تثبيت تبعيات JavaScript
+npm install
+```
+
+3. **إعداد البيئة**
+```bash
+# نسخ ملف البيئة
+cp .env.example .env
+
+# توليد مفتاح التطبيق
+php artisan key:generate
+```
+
+4. **إعداد قاعدة البيانات**
+```bash
+# إنشاء قاعدة البيانات وتشغيل الهجرات
+php artisan migrate
+
+# تشغيل البذور (البيانات الأولية)
+php artisan db:seed
+```
+
+5. **إعداد Pusher**
+```env
+BROADCAST_DRIVER=pusher
+PUSHER_APP_ID=your_app_id
+PUSHER_APP_KEY=your_app_key
+PUSHER_APP_SECRET=your_app_secret
+PUSHER_APP_CLUSTER=your_cluster
+```
+
+6. **بناء الأصول**
+```bash
+npm run build
+# أو للتطوير
+npm run dev
+```
+
+7. **تشغيل الخادم**
+```bash
+php artisan serve
+```
 # School_project_10
