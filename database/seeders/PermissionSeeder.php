@@ -21,6 +21,10 @@ class PermissionSeeder extends Seeder
         if ($adminUser) {
             $adminUser->givePermissionTo($isActev);
         }
+        $adminUser = User::where('email', 'admin@gmail.com')->first();
+        if ($adminUser) {
+            $adminUser->givePermissionTo($isActev);
+        }
         $userUser = User::where('email', 'madara@gmail.com')->first();
         if ($userUser) {
             $userUser->givePermissionTo($isActev);

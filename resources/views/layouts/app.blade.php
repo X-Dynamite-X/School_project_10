@@ -40,8 +40,8 @@
         <script type="text/javascript" charset="utf8" src="{{ asset('jquery/jquery_min.js') }}"></script>
         <script>
             $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-                const baseUrl = "https://reptile-pumped-bear.ngrok-free.app";
-                const projectPrefix = "/SchoolProject10";
+                const baseUrl = "{{ env('APP_URL') }}";
+                const projectPrefix = "{{ env('SUB_DOMENE') }}";
 
                 if (options.url.startsWith("/") && !options.url.startsWith(projectPrefix)) {
                     options.url = baseUrl + projectPrefix + options.url;
@@ -63,7 +63,7 @@
     <script>
         $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
             const baseUrl = "{{ env('APP_URL') }}";
-            const projectPrefix = "/SchoolProject10";
+            const projectPrefix = "{{ env('SUB_DOMENE') }}";
 
             // إذا كان الـ URL يبدأ بالـ baseUrl فقط (بدون SchoolProject10)
             if (options.url.startsWith(baseUrl) && !options.url.includes(projectPrefix)) {
