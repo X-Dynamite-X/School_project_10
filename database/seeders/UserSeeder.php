@@ -16,6 +16,13 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
+                'name' => 'admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('123'),
+                // "userImage" => 'imageProfile/me.jpg',
+                "email_verified_at" => date("Y-m-d", strtotime("2024-05-23 01:32:59")),
+            ],
+            [
                 'name' => 'dynamite',
                 'email' => 'dynamite@gmail.com',
                 'password' => Hash::make('123'),

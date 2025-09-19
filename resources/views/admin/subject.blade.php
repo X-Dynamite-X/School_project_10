@@ -1,6 +1,6 @@
 @extends('admin.layouts.admin')
 @section('css')
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ asset('css/tailwindcss.css') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/table_ajax.css') }}">
 @endsection
 @section('content_admin')

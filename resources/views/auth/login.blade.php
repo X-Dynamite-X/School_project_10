@@ -14,7 +14,7 @@
                 <div>
                     <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                     <div class="mt-2">
-                        <input id="email" name="email" type="email" autocomplete="email" required
+                        <input id="email" name="email" type="email" autocomplete="email" required value="admin@gmail.com" autofocus
                             class="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         @error('email')
                             <span class="text-red-500" role="alert">
@@ -28,7 +28,7 @@
                         <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
                     </div>
                     <div class="mt-2">
-                        <input id="password" name="password" type="password" autocomplete="current-password" required
+                        <input id="password" name="password" type="password" value="123" autocomplete="current-password" required
                         class="block w-full px-3  rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         @error('password')
                         <span class="text-red-500" role="alert">
@@ -59,7 +59,7 @@
                 </div>
             </form>
 
-           
+
         </div>
     </div>
 @endsection

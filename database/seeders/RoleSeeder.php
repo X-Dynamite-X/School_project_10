@@ -17,15 +17,14 @@ class RoleSeeder extends Seeder
     {
         $adminRole = Role::create(['name' => 'admin']);
         $userRole = Role::create(['name' => 'user']);
-
-        // تعيين أذونات لكل دور إذا لزم الأمر
-
-        // تعيين الأدوار للمستخدمين
         $adminUser = User::where('email', 'dynamite@gmail.com')->first();
         if ($adminUser) {
             $adminUser->assignRole($adminRole);
         }
-
+        $adminUser = User::where('email', 'admin@gmail.com')->first();
+        if ($adminUser) {
+            $adminUser->assignRole($adminRole);
+        }
         $userUser = User::where('email', 'madara@gmail.com')->first();
         if ($userUser) {
             $userUser->assignRole($userRole);

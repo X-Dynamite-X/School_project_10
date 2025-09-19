@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tailwind CSS Email Template</title>
-    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
+    <script src="{{ asset('css/tailwindcss.css') }}"></script>
 
     <style>
         /* أنماط Tailwind مدمجة هنا */

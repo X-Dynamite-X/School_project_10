@@ -73,7 +73,7 @@ function displayMessage(res, conversationIdNowChat) {
     if (res.message.conversation_id == conversationIdNowChat) {
         $.get("/templates/message/reseve.html", function (template) {
             var reseveMessage = template
-                .replace(/\${senderImage}/g, "../../imageProfile/" + res.sender.image)
+                .replace(/\${senderImage}/g, "public/imageProfile/" + res.sender.image)
                 .replace(/\${messageId}/g, res.message.id)
                 .replace(/\${conversationId}/g, res.message.conversation_id)
                 .replace(/\${messageDate}/g, res.date)
@@ -99,7 +99,7 @@ function displayMessage(res, conversationIdNowChat) {
         }
         $.get("/templates/notification/NotificationMessage.html", function (template) {
             var notification = template
-                .replace(/\${senderImage}/g, "../../imageProfile/" + res.sender.image)
+                .replace(/\${senderImage}/g, "public/imageProfile/" + res.sender.image)
                 .replace(/\${senderName}/g, res.sender.name)
                 .replace(/\${messageId}/g, res.message.id)
                 .replace(/\${conversationId}/g, res.message.conversation_id)

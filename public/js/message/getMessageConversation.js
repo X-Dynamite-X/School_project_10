@@ -45,7 +45,7 @@ function subscribeToChannel(conversationId) {
                         $.get("/templates/notification/NotificationMessage.html",
                             function (template) {
                                 var notification = template
-                                    .replace(/\${senderImage}/g,"../../imageProfile/" + res.sender.image)
+                                    .replace(/\${senderImage}/g,"public/imageProfile/" + res.sender.image)
                                     .replace(/\${senderName}/g, res.sender.name)
                                     .replace(/\${messageId}/g, res.message.id)
                                     .replace(/\${conversationId}/g,data.conversation_id)
